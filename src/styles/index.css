@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Manrope:wght@400;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  font-family: Manrope, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #E9DFC9;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    linear-gradient(90deg, rgba(35, 41, 29, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(35, 41, 29, 0.03) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(233, 223, 201, 1), rgba(201, 185, 155, 0.3));
+  background-size: 42px 42px, 42px 42px, auto;
+}
+
+img {
+  max-width: 100%;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.animate-rise {
+  animation: rise 650ms ease both;
+}
+
+.scroll-reveal {
+  animation: reveal-up both;
+  animation-duration: 720ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-timeline: view();
+  animation-range: entry 0% cover 28%;
+}
+
+.delay-150 {
+  animation-delay: 150ms;
+}
+
+.brand-word {
+  text-wrap: balance;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.55);
+}
+
+.ink-stroke {
+  -webkit-text-stroke: 1px rgba(35, 41, 29, 0.18);
+}
+
+.hero-panel {
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 90% 100%, 0 100%);
+}
+
+.slant-panel {
+  clip-path: polygon(0 8%, 100% 0, 100% 92%, 0 100%);
+}
+
+.marquee-track {
+  animation: slide 24s linear infinite;
+}
+
+.frosted {
+  background: rgba(255, 255, 255, 0.48);
+  backdrop-filter: blur(18px);
+}
+
+.surface-noise {
+  position: relative;
+}
+
+.surface-noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.2;
+  background-image:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.55) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(255, 255, 255, 0.42) 25%, transparent 25%);
+  background-size: 18px 18px;
+  mix-blend-mode: soft-light;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}
