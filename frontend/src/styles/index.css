@@ -76,7 +76,7 @@ select {
 }
 
 .marquee-track {
-  animation: slide 24s linear infinite;
+  animation: slide 48s linear infinite;
 }
 
 .frosted {
