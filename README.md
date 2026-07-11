@@ -33,4 +33,9 @@ Run the backend in a second terminal:
 npm.cmd run server
 ```
 
+Project folders:
+
+- `frontend/` contains the React + Vite app, Tailwind config, public assets and build output.
+- `backend/` contains the Express + MongoDB API server.
+
 Set `MONGODB_URI` and `WHATSAPP_NUMBER` in `.env` before production use.
