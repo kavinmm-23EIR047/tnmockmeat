@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1 --config frontend/vite.config.js",
-    "build": "vite build --config frontend/vite.config.js",
-    "preview": "vite preview --host 127.0.0.1 --config frontend/vite.config.js",
+    "dev": "npx vite --host 127.0.0.1 --config frontend/vite.config.js",
+    "build": "npx vite build --config frontend/vite.config.js",
+    "preview": "npx vite preview --host 127.0.0.1 --config frontend/vite.config.js",
     "server": "node backend/index.js",
     "dev:full": "concurrently \"npm.cmd run dev\" \"npm.cmd run server\""
   },
