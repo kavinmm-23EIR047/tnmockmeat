@@ -106,6 +106,7 @@ async function appendToSheet(enquiry) {
 // ✉️ Create global email transporter (initialize once)
 const transporter = nodemailer.createTransport({
   service: 'gmail',
+  family: 4, // Force IPv4 to prevent connect ENETUNREACH on Render
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -132,6 +133,13 @@ function formatUserEmail(enquiry) {
     `Hi ${enquiry.name},`,
     '',
     `Thanks for contacting ${brand.shortName}. We have received your enquiry and our team will get back to you soon.`,
+    '',
+    'Submitted Details:',
+    `Name: ${enquiry.name}`,
+    `Phone: ${enquiry.phone}`,
+    `Email: ${enquiry.email}`,
+    `Business Type: ${enquiry.businessType || 'Not selected'}`,
+    `Message: ${enquiry.message}`,
     '',
     `Phone: ${brand.phone}`,
     `WhatsApp: ${brand.whatsapp}`,
@@ -239,6 +247,19 @@ function formatUserEmailHtml(enquiry) {
     <p style="margin:0 0 18px;color:#6B624F;font-size:15px;line-height:1.7;">
       Our team will get back to you soon with the product and supply details you requested.
     </p>
+    <div style="background:#23291D;color:#E9DFC9;border-radius:10px;padding:14px 16px;margin-bottom:18px;">
+      <p style="margin:0;color:#DCA534;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:0.1em;">Submitted Details</p>
+    </div>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-top:1px solid rgba(35,41,29,0.12);border-bottom:1px solid rgba(35,41,29,0.12);margin-bottom:20px;">
+      ${detailRow('Name', enquiry.name)}
+      ${detailRow('Phone', enquiry.phone)}
+      ${detailRow('Email', enquiry.email)}
+      ${detailRow('Business Type', enquiry.businessType)}
+    </table>
+    <p style="margin:0 0 8px;color:#858B72;font-size:13px;font-weight:800;">Message</p>
+    <div style="background:#E9DFC9;border-left:4px solid #DCA534;border-radius:8px;padding:16px;color:#23291D;font-size:15px;line-height:1.7;margin-bottom:20px;">
+      ${escapeHtml(enquiry.message).replace(/\n/g, '<br>')}
+    </div>
     <div style="background:#E9DFC9;border-radius:10px;padding:16px;margin-bottom:20px;">
       <p style="margin:0;color:#23291D;font-size:15px;line-height:1.7;">
         For faster support, you can call us at <strong>${brand.phone}</strong> or message us on WhatsApp.
@@ -285,14 +306,6 @@ app.post('/api/enquiries', async (request, response) => {
     appendToSheet(enquiry),
     transporter.sendMail({
       from,
-      to: adminEmail,
-      replyTo: enquiry.email,
-      subject: `New enquiry from ${enquiry.name}`,
-      text: formatAdminEmail(enquiry),
-      html: formatAdminEmailHtml(enquiry)
-    }),
-    transporter.sendMail({
-      from,
       to: enquiry.email,
       subject: 'Thanks for contacting Sri Sakthi Foods',
       text: formatUserEmail(enquiry),
@@ -301,9 +314,9 @@ app.post('/api/enquiries', async (request, response) => {
   ]).then((results) => {
     results.forEach((result, index) => {
       if (result.status === 'fulfilled') {
-        console.log(['✅ Saved to Google Sheets', '📨 Admin notified', '📨 Auto-reply sent'][index]);
+        console.log(['✅ Saved to Google Sheets', '📨 Auto-reply sent'][index]);
       } else {
-        console.error(['❌ Sheets error', '❌ Admin email failed', '❌ Auto-reply failed'][index], result.reason.message);
+        console.error(['❌ Sheets error', '❌ Auto-reply failed'][index], result.reason.message);
       }
     });
   }).catch((err) => console.error('❌ Background task error:', err.message));

@@ -1,6 +1,7 @@
 import { ArrowRight, CheckCircle2, MapPin, MessageCircle, Snowflake } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import FoodImage from '../components/FoodImage.jsx';
+import MobileSlider from '../components/MobileSlider.jsx';
 import ProductCard from '../components/ProductCard.jsx';
 import SectionHeader from '../components/SectionHeader.jsx';
 import StatBand from '../components/StatBand.jsx';
@@ -125,10 +126,10 @@ export default function Home() {
           title="Frozen products for kitchens that want variety, speed and vegetarian-friendly choices."
           text="The website explains the company, product categories, distribution areas and enquiry options. Customers can view products and contact the team, but they cannot add to cart or place online orders."
         />
-        <div className="mt-10 flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-4 mobile-slider">
+        <MobileSlider desktopCols={4}>
           {services.map((service) => (
-              <div key={service.title} className="group min-w-[75vw] shrink-0 snap-start overflow-hidden rounded-md bg-white/[0.58] shadow-soft ring-1 ring-olivewood/[0.08] transition hover:-translate-y-1 hover:bg-white sm:min-w-0">
-                <div className="h-40 overflow-hidden">
+              <div key={service.title} className="group h-full overflow-hidden rounded-md bg-white/[0.58] shadow-soft ring-1 ring-olivewood/[0.08] transition hover:-translate-y-1 hover:bg-white">
+                <div className="h-48 sm:h-40 overflow-hidden">
                   <FoodImage
                     src={service.image}
                     alt={service.title}
@@ -137,13 +138,13 @@ export default function Home() {
                     imgClassName="object-cover transition duration-700 group-hover:scale-110"
                   />
                 </div>
-                <div className="p-6">
-                <h3 className="font-display text-xl font-black">{service.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-bark">{service.text}</p>
+                <div className="p-5">
+                <h3 className="font-display text-lg font-black">{service.title}</h3>
+                <p className="mt-2 text-sm leading-7 text-bark">{service.text}</p>
                 </div>
               </div>
           ))}
-        </div>
+        </MobileSlider>
       </section>
 
       <section className="slant-panel bg-white/[0.42] py-24">
@@ -158,13 +159,11 @@ export default function Home() {
               See all products <ArrowRight size={18} />
             </Link>
           </div>
-          <div className="mt-10 flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 xl:grid-cols-4 mobile-slider">
+          <MobileSlider desktopCols={4}>
             {topSellingProducts.map((product) => (
-              <div key={product.name} className="min-w-[75vw] shrink-0 snap-start sm:min-w-0">
-                <ProductCard product={product} compact />
-              </div>
+              <ProductCard key={product.name} product={product} compact />
             ))}
-          </div>
+          </MobileSlider>
         </div>
       </section>
 
