@@ -72,7 +72,7 @@ select {
 }
 
 .slant-panel {
-  clip-path: polygon(0 8%, 100% 0, 100% 92%, 0 100%);
+  clip-path: none;
 }
 
 .marquee-track {
@@ -140,5 +140,11 @@ select {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 1ms !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .slant-panel {
+    clip-path: polygon(0 8%, 100% 0, 100% 92%, 0 100%);
   }
 }
