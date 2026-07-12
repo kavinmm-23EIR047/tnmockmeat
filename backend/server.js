@@ -26,7 +26,24 @@ const brand = {
   whatsapp: process.env.WHATSAPP_URL || 'https://wa.me/918056389214'
 };
 
-app.use(cors({ origin: ['http://127.0.0.1:5173', 'http://localhost:5173'] }));
+const allowedOrigins = [
+  'http://127.0.0.1:5173',
+  'http://localhost:5173',
+  process.env.WEBSITE_URL
+].filter(Boolean);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const isAllowed = allowedOrigins.some(url => url.replace(/\/$/, '') === origin.replace(/\/$/, ''))
+      || origin.endsWith('.vercel.app');
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
 app.use(express.json({ limit: '1mb' }));
 
 function clean(value = '') {
