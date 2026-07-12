@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import FloatingActions from './components/FloatingActions.jsx';
+import Seo from './components/Seo.jsx';
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
 import Products from './pages/Products.jsx';
@@ -27,6 +28,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-parchment text-olivewood">
       <ScrollToTop />
+      <Seo />
       <Header />
       <main>
         <Routes>
