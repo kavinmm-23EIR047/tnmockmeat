@@ -1,5 +1,8 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import dns from 'node:dns';
+
+dns.setDefaultResultOrder('ipv4first');
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
@@ -114,6 +117,7 @@ function getMailer() {
     host,
     port: Number(port),
     secure: secure === "true",
+    family: 4,
     auth: {
       user,
       pass,
