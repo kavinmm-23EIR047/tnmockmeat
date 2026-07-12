@@ -104,14 +104,20 @@ async function appendToSheet(enquiry) {
 }
 
 function getMailer() {
+  const host = (process.env.SMTP_HOST || '').trim().replace(/^"|"$/g, '');
+  const port = (process.env.SMTP_PORT || '').trim().replace(/^"|"$/g, '');
+  const secure = (process.env.SMTP_SECURE || '').trim().replace(/^"|"$/g, '');
+  const user = (process.env.SMTP_USER || '').trim().replace(/^"|"$/g, '');
+  const pass = (process.env.SMTP_PASS || '').trim().replace(/^"|"$/g, '');
+
   return nodemailer.createTransport({
-    host: getRequiredEnv('SMTP_HOST'),
-    port: Number(process.env.SMTP_PORT || 587),
-    secure: process.env.SMTP_SECURE === 'true',
+    host,
+    port: Number(port),
+    secure: secure === "true",
     auth: {
-      user: getRequiredEnv('SMTP_USER'),
-      pass: getRequiredEnv('SMTP_PASS')
-    }
+      user,
+      pass,
+    },
   });
 }
 
@@ -260,7 +266,9 @@ function formatUserEmailHtml(enquiry) {
 
 async function sendEmails(enquiry) {
   const mailer = getMailer();
-  const from = process.env.MAIL_FROM || process.env.SMTP_USER;
+  await mailer.verify();
+  console.log("SMTP connection successful");
+  const from = (process.env.MAIL_FROM || process.env.SMTP_USER || '').trim().replace(/^"|"$/g, '');
   const adminEmail = getRequiredEnv('ADMIN_EMAIL');
 
   const adminResult = await mailer.sendMail({
@@ -317,7 +325,7 @@ app.post('/api/enquiries', async (request, response) => {
       message: 'Thank you. Your enquiry has been sent successfully.'
     });
   } catch (error) {
-    console.error('Email send failed:', error.message);
+    console.error('Email send failed:', error);
 
     return response.status(500).json({
       message: 'Enquiry saved, but email could not be sent. Please check SMTP settings.'
