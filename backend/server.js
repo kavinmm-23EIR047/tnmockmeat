@@ -107,20 +107,11 @@ async function appendToSheet(enquiry) {
 }
 
 function getMailer() {
-  const host = (process.env.SMTP_HOST || '').trim().replace(/^"|"$/g, '');
-  const port = (process.env.SMTP_PORT || '').trim().replace(/^"|"$/g, '');
-  const secure = (process.env.SMTP_SECURE || '').trim().replace(/^"|"$/g, '');
-  const user = (process.env.SMTP_USER || '').trim().replace(/^"|"$/g, '');
-  const pass = (process.env.SMTP_PASS || '').trim().replace(/^"|"$/g, '');
-
   return nodemailer.createTransport({
-    host,
-    port: Number(port),
-    secure: secure === "true",
-    family: 4,
+    service: 'gmail',
     auth: {
-      user,
-      pass,
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 }
@@ -272,7 +263,7 @@ async function sendEmails(enquiry) {
   const mailer = getMailer();
   await mailer.verify();
   console.log("SMTP connection successful");
-  const from = (process.env.MAIL_FROM || process.env.SMTP_USER || '').trim().replace(/^"|"$/g, '');
+  const from = process.env.MAIL_FROM || process.env.EMAIL_USER;
   const adminEmail = getRequiredEnv('ADMIN_EMAIL');
 
   const adminResult = await mailer.sendMail({
