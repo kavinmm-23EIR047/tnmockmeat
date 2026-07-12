@@ -25,7 +25,7 @@ export default function ContactForm() {
     setStatus({ type: '', message: '' });
 
     try {
-      const apiBaseUrl = import.meta.env.DEV ? 'http://localhost:5000' : '';
+      const apiBaseUrl = import.meta.env.VITE_API_URL || '';
       const response = await fetch(`${apiBaseUrl}/api/enquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
