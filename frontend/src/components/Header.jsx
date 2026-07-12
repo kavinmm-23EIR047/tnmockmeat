@@ -15,7 +15,7 @@ export default function Header() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-olivewood/10 bg-parchment/[0.82] backdrop-blur-xl">
+    <header className="relative z-40 border-b border-olivewood/10 bg-parchment/[0.82] backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link to="/" className="group flex items-center gap-3" onClick={() => setOpen(false)}>
           <span className="grid h-12 w-12 place-items-center overflow-hidden rounded-md bg-transparent transition group-hover:-rotate-3 group-hover:scale-105">
