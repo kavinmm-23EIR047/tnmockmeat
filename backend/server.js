@@ -1,8 +1,5 @@
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import dns from 'node:dns';
-
-dns.setDefaultResultOrder('ipv4first');
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
@@ -106,15 +103,14 @@ async function appendToSheet(enquiry) {
   });
 }
 
-function getMailer() {
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-}
+// ✉️ Create global email transporter (initialize once)
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 function formatAdminEmail(enquiry) {
   return [
@@ -259,33 +255,6 @@ function formatUserEmailHtml(enquiry) {
   `);
 }
 
-async function sendEmails(enquiry) {
-  const mailer = getMailer();
-  await mailer.verify();
-  console.log("SMTP connection successful");
-  const from = process.env.MAIL_FROM || process.env.EMAIL_USER;
-  const adminEmail = getRequiredEnv('ADMIN_EMAIL');
-
-  const adminResult = await mailer.sendMail({
-    from,
-    to: adminEmail,
-    replyTo: enquiry.email,
-    subject: `New enquiry from ${enquiry.name}`,
-    text: formatAdminEmail(enquiry),
-    html: formatAdminEmailHtml(enquiry)
-  });
-  console.log(`Admin email accepted for ${adminEmail}: ${adminResult.messageId}`);
-
-  const userResult = await mailer.sendMail({
-    from,
-    to: enquiry.email,
-    subject: 'Thanks for contacting Sri Sakthi Foods',
-    text: formatUserEmail(enquiry),
-    html: formatUserEmailHtml(enquiry)
-  });
-  console.log(`User email accepted for ${enquiry.email}: ${userResult.messageId}`);
-}
-
 app.get('/api/health', (_request, response) => {
   response.json({ ok: true, service: 'sri-sakthi-foods-api' });
 });
@@ -303,29 +272,41 @@ app.post('/api/enquiries', async (request, response) => {
     return response.status(400).json({ message: 'Name, phone, email and message are required.' });
   }
 
-  try {
-    await appendToSheet(enquiry);
-  } catch (error) {
-    console.error('Google Sheet save failed:', error.message);
+  // ✅ Respond to frontend immediately
+  response.status(201).json({
+    message: 'Thank you. Your enquiry has been sent successfully.'
+  });
 
-    return response.status(500).json({
-      message: 'Unable to save enquiry right now. Please try again later.'
+  // ✅ Start background tasks (Sheets + Emails)
+  const from = process.env.MAIL_FROM || process.env.EMAIL_USER;
+  const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL_USER;
+
+  Promise.allSettled([
+    appendToSheet(enquiry),
+    transporter.sendMail({
+      from,
+      to: adminEmail,
+      replyTo: enquiry.email,
+      subject: `New enquiry from ${enquiry.name}`,
+      text: formatAdminEmail(enquiry),
+      html: formatAdminEmailHtml(enquiry)
+    }),
+    transporter.sendMail({
+      from,
+      to: enquiry.email,
+      subject: 'Thanks for contacting Sri Sakthi Foods',
+      text: formatUserEmail(enquiry),
+      html: formatUserEmailHtml(enquiry)
+    })
+  ]).then((results) => {
+    results.forEach((result, index) => {
+      if (result.status === 'fulfilled') {
+        console.log(['✅ Saved to Google Sheets', '📨 Admin notified', '📨 Auto-reply sent'][index]);
+      } else {
+        console.error(['❌ Sheets error', '❌ Admin email failed', '❌ Auto-reply failed'][index], result.reason.message);
+      }
     });
-  }
-
-  try {
-    await sendEmails(enquiry);
-
-    return response.status(201).json({
-      message: 'Thank you. Your enquiry has been sent successfully.'
-    });
-  } catch (error) {
-    console.error('Email send failed:', error);
-
-    return response.status(500).json({
-      message: 'Enquiry saved, but email could not be sent. Please check SMTP settings.'
-    });
-  }
+  }).catch((err) => console.error('❌ Background task error:', err.message));
 });
 
 if (process.env.VERCEL !== '1') {

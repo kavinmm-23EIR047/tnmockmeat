@@ -148,3 +148,23 @@ select {
     clip-path: polygon(0 8%, 100% 0, 100% 92%, 0 100%);
   }
 }
+
+/* Mobile swipe slider */
+.mobile-slider {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.mobile-slider::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .mobile-slider {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

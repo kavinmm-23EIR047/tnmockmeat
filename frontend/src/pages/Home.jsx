@@ -125,9 +125,9 @@ export default function Home() {
           title="Frozen products for kitchens that want variety, speed and vegetarian-friendly choices."
           text="The website explains the company, product categories, distribution areas and enquiry options. Customers can view products and contact the team, but they cannot add to cart or place online orders."
         />
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-4 mobile-slider">
           {services.map((service) => (
-              <div key={service.title} className="group overflow-hidden rounded-md bg-white/[0.58] shadow-soft ring-1 ring-olivewood/[0.08] transition hover:-translate-y-1 hover:bg-white">
+              <div key={service.title} className="group min-w-[75vw] shrink-0 snap-start overflow-hidden rounded-md bg-white/[0.58] shadow-soft ring-1 ring-olivewood/[0.08] transition hover:-translate-y-1 hover:bg-white sm:min-w-0">
                 <div className="h-40 overflow-hidden">
                   <FoodImage
                     src={service.image}
@@ -158,9 +158,11 @@ export default function Home() {
               See all products <ArrowRight size={18} />
             </Link>
           </div>
-          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-10 flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 xl:grid-cols-4 mobile-slider">
             {topSellingProducts.map((product) => (
-              <ProductCard key={product.name} product={product} compact />
+              <div key={product.name} className="min-w-[75vw] shrink-0 snap-start sm:min-w-0">
+                <ProductCard product={product} compact />
+              </div>
             ))}
           </div>
         </div>
