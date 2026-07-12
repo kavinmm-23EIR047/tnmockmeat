@@ -29,7 +29,7 @@ export default function Products() {
           </div>
         </div>
 
-        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-8 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
           {veganMeatHighlights.map((item, index) => (
             <div
               key={item}
@@ -64,7 +64,7 @@ export default function Products() {
           ))}
         </div>
 
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {visibleProducts.map((product) => (
             <ProductCard key={product.name} product={product} />
           ))}

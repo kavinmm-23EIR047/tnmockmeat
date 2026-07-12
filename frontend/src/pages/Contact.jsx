@@ -1,4 +1,4 @@
-import { ExternalLink, Instagram, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
+import { ExternalLink, Instagram, Mail, MapPin, MessageCircle, Phone, UserRound } from 'lucide-react';
 import ContactForm from '../components/ContactForm.jsx';
 import SectionHeader from '../components/SectionHeader.jsx';
 import { company } from '../data/site.js';
@@ -16,6 +16,10 @@ export default function Contact() {
         <div className="rounded-md bg-olivewood p-7 text-parchment shadow-soft">
           <h3 className="font-display text-2xl font-black">Direct contact</h3>
           <div className="mt-6 grid gap-4 text-sm text-parchment/[0.78]">
+            <span className="flex gap-3 rounded-md bg-white/10 p-4">
+              <UserRound className="text-olive" size={22} />
+              {company.proprietor} , {company.proprietorTitle.toUpperCase()}
+            </span>
             <a href={getWhatsAppUrl()} target="_blank" rel="noreferrer" className="flex gap-3 rounded-md bg-white/10 p-4 hover:bg-white/[0.15]">
               <MessageCircle className="text-olive" size={22} />
               WhatsApp enquiry

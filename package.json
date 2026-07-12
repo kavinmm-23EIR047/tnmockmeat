@@ -7,7 +7,7 @@
     "dev": "node ./node_modules/vite/bin/vite.js --host 127.0.0.1 --config frontend/vite.config.js",
     "build": "node ./node_modules/vite/bin/vite.js build --config frontend/vite.config.js",
     "preview": "node ./node_modules/vite/bin/vite.js preview --host 127.0.0.1 --config frontend/vite.config.js",
-    "server": "node backend/index.js",
+    "server": "node backend/server.js",
     "dev:full": "concurrently \"npm.cmd run dev\" \"npm.cmd run server\""
   },
   "dependencies": {
@@ -15,8 +15,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "googleapis": "^173.0.0",
     "lucide-react": "^0.468.0",
-    "mongoose": "^8.9.2",
+    "nodemailer": "^9.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.1"

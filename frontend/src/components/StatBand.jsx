@@ -1,9 +1,9 @@
 export default function StatBand() {
   const stats = [
     ['2', 'States served'],
-    ['100%', 'Showcase only'],
+    ['100%', 'Business ready'],
     ['B2B', 'Supply ready'],
-    ['0', 'Prices listed']
+    ['MSME', 'Udyam certified']
   ];
 
   return (

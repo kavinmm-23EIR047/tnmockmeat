@@ -7,7 +7,18 @@ import StatBand from '../components/StatBand.jsx';
 import { audience, company, products, services, strengths } from '../data/site.js';
 import { getWhatsAppUrl } from '../utils/contact.js';
 
+const topSellingProductNames = ['Veg Fish Fillet', 'Veg Chicken', 'Veg Liver', 'Corn Cheese Balls'];
+
 export default function Home() {
+  const topSellingProducts = topSellingProductNames
+    .map((name) => products.find((product) => product.name === name))
+    .filter(Boolean);
+  const heroProducts = {
+    first: products.find((product) => product.name === 'Veg Prawn'),
+    second: products.find((product) => product.name === 'Veg Mutton'),
+    third: products.find((product) => product.name === 'Veg Tenggiri Fish (Vanjaram)')
+  };
+
   return (
     <>
       <section className="relative overflow-hidden px-4 py-6 sm:px-6 lg:px-8">
@@ -58,15 +69,15 @@ export default function Home() {
                 <div className="grid grid-cols-6 gap-3">
                   <div className="col-span-6 overflow-hidden rounded-md shadow-crisp sm:col-span-4 sm:h-[390px]">
                     <FoodImage
-                      src={products[0].image}
-                      alt={products[0].name}
-                      category={products[0].category}
+                      src={heroProducts.first?.image}
+                      alt={heroProducts.first?.name}
+                      category={heroProducts.first?.category}
                       className="h-full min-h-72 w-full"
                       imgClassName="object-cover"
                     />
                   </div>
                   <div className="col-span-6 grid gap-3 sm:col-span-2">
-                    {products.slice(3, 5).map((product) => (
+                    {[heroProducts.second, heroProducts.third].filter(Boolean).map((product) => (
                       <div key={product.name} className="overflow-hidden rounded-md bg-parchment p-2 shadow-crisp">
                         <FoodImage
                           src={product.image}
@@ -139,16 +150,16 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <SectionHeader
-              eyebrow="Featured range"
-              title="Mock meat, mock seafood and frozen snacks."
-              text="A curated showcase of products customers can enquire about. No prices are displayed."
+              eyebrow="Top Selling Products"
+              title="Veg Fish Fillet, Veg Chicken, Veg Liver and Corn Cheese Balls."
+              text="These are the major products highlighted on the home page for quick enquiry and easy browsing."
             />
             <Link to="/products" className="inline-flex items-center gap-2 font-black text-chilli hover:text-olivewood">
               See all products <ArrowRight size={18} />
             </Link>
           </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {products.slice(0, 3).map((product) => (
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+            {topSellingProducts.map((product) => (
               <ProductCard key={product.name} product={product} compact />
             ))}
           </div>
@@ -174,7 +185,7 @@ export default function Home() {
             })}
           </div>
         </div>
-        <div className="surface-noise rounded-md bg-sage p-6 text-white shadow-crisp">
+        <div className="surface-noise rounded-md bg-olivewood p-6 text-white shadow-crisp">
           <h3 className="font-display text-3xl font-black">Who we serve</h3>
           <div className="mt-6 grid gap-4">
             {audience.map((item) => {

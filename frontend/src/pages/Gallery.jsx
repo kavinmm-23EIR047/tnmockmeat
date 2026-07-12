@@ -10,7 +10,7 @@ export default function Gallery() {
         title="A visual look at the frozen range."
         text="Use this space to showcase client product photos, brand visuals and preparation ideas."
       />
-      <div className="mt-10 grid auto-rows-[230px] gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-10 grid auto-rows-[230px] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {products.map((product, index) => (
           <figure
             key={product.name}

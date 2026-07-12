@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom';
 import { ArrowRight, MessageCircle, PackageCheck, Snowflake, Tags } from 'lucide-react';
 import FoodImage from './FoodImage.jsx';
+import { getWhatsAppUrl } from '../utils/contact.js';
 
 export default function ProductCard({ product, compact = false }) {
+  const enquiryUrl = getWhatsAppUrl(`Hello Mock Meat, I want to enquire about ${product.name}.`);
+
   return (
     <article className="scroll-reveal group relative flex h-full flex-col overflow-hidden rounded-md bg-white/[0.72] shadow-soft ring-1 ring-olivewood/[0.1] transition duration-300 hover:-translate-y-1 hover:shadow-crisp focus-within:-translate-y-1 focus-within:shadow-crisp">
       <div className="absolute right-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-md bg-parchment/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-olivewood shadow-insetLine backdrop-blur">
@@ -35,12 +37,14 @@ export default function ProductCard({ product, compact = false }) {
           ))}
         </div>
         {!compact && (
-          <Link
-            to="/contact"
+          <a
+            href={enquiryUrl}
+            target="_blank"
+            rel="noreferrer"
             className="mt-auto inline-flex w-fit items-center gap-2 pt-5 text-sm font-black text-chilli outline-none transition hover:text-olivewood focus-visible:rounded-md focus-visible:ring-2 focus-visible:ring-chilli focus-visible:ring-offset-4 focus-visible:ring-offset-white"
           >
-            Ask availability <ArrowRight size={17} strokeWidth={2.8} />
-          </Link>
+            Enquire on WhatsApp <ArrowRight size={17} strokeWidth={2.8} />
+          </a>
         )}
       </div>
     </article>

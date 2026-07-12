@@ -36,7 +36,7 @@ export default function ContactForm() {
         throw new Error(data.message || 'Unable to send enquiry.');
       }
 
-      setStatus({ type: 'success', message: 'Thank you. Your enquiry has been saved.' });
+      setStatus({ type: 'success', message: 'Thank you. Your enquiry has been sent successfully.' });
       setForm(initialState);
     } catch (error) {
       setStatus({
@@ -76,6 +76,7 @@ export default function ContactForm() {
         <label className="grid gap-2 text-sm font-bold text-olivewood">
           Email
           <input
+            required
             name="email"
             type="email"
             value={form.email}
