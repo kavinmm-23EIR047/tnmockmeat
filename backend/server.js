@@ -15,21 +15,27 @@ export default app;
 
 const port = process.env.PORT || 5000;
 const sheetRange = process.env.GOOGLE_SHEET_RANGE || 'A:F';
+const websiteUrl = (process.env.WEBSITE_URL || '').trim().replace(/^"|"$/g, '');
+const logoUrl = (process.env.LOGO_URL || '').trim().replace(/^"|"$/g, '');
+const businessPhone = (process.env.BUSINESS_PHONE || '').trim().replace(/^"|"$/g, '');
+const whatsappUrl = (process.env.WHATSAPP_URL || '').trim().replace(/^"|"$/g, '');
+
 const brand = {
   name: 'Sakthi Frozen Food Traders',
   shortName: 'Sri Sakthi Foods',
   proprietor: 'Sakthidhasan.T',
   proprietorTitle: 'Proprietor',
-  website: process.env.WEBSITE_URL || 'https://tnmockmeat.com',
-  logo: process.env.LOGO_URL || 'https://tnmockmeat.com/images/logo.png',
-  phone: process.env.BUSINESS_PHONE || '+91 80563 89214',
-  whatsapp: process.env.WHATSAPP_URL || 'https://wa.me/918056389214'
+  website: websiteUrl || 'https://tnmockmeat.com',
+  logo: logoUrl || 'https://tnmockmeat.com/images/logo.png',
+  phone: businessPhone || '+91 80563 89214',
+  whatsapp: whatsappUrl || 'https://wa.me/918056389214'
 };
+
 
 const allowedOrigins = [
   'http://127.0.0.1:5173',
   'http://localhost:5173',
-  process.env.WEBSITE_URL
+  websiteUrl
 ].filter(Boolean);
 
 app.use(cors({
@@ -51,11 +57,14 @@ function clean(value = '') {
 }
 
 function getRequiredEnv(name) {
-  const value = process.env[name];
+  let value = process.env[name];
 
   if (!value) {
     throw new Error(`${name} is not configured.`);
   }
+
+  // Strip leading and trailing quotes if copied from .env file
+  value = value.trim().replace(/^"|"$/g, '');
 
   return value;
 }
