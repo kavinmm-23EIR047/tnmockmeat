@@ -1,6 +1,6 @@
 export default function StatBand() {
   const stats = [
-    ['2', 'States served'],
+    ['All', 'Over India'],
     ['100%', 'Business ready'],
     ['B2B', 'Supply ready'],
     ['MSME', 'Udyam certified']

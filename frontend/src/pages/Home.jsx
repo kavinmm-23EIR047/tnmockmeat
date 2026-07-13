@@ -24,8 +24,8 @@ export default function Home() {
     <>
       <section className="relative overflow-hidden px-4 py-6 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-            <div className="hero-panel relative overflow-hidden rounded-md bg-olivewood text-parchment shadow-crisp">
-              <div className="absolute inset-0 opacity-25">
+          <div className="hero-panel relative overflow-hidden rounded-2xl bg-olivewood text-parchment shadow-crisp">
+            <div className="absolute inset-0 opacity-25 pointer-events-none">
               <FoodImage
                 src={products[2].image}
                 alt={products[2].name}
@@ -35,23 +35,39 @@ export default function Home() {
                 loading="eager"
               />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-olivewood via-olivewood/[0.88] to-olivewood/[0.3]" />
-            <div className="relative grid min-h-[680px] items-end gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:px-10 lg:py-10">
-              <div className="animate-rise pb-6">
-                <p className="mb-5 inline-flex items-center gap-2 rounded-md border border-white/[0.15] bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-olive backdrop-blur">
-                  <MapPin size={15} /> Coimbatore frozen food supplier
-                </p>
-                <h1 className="brand-word font-display text-6xl font-black leading-[0.9] text-parchment sm:text-7xl lg:text-8xl">
+            {/* Ambient visual glows for visual depth */}
+            <div className="absolute -left-10 -top-10 h-72 w-72 rounded-full bg-turmeric/10 blur-[80px] pointer-events-none" />
+            <div className="absolute -left-20 bottom-10 h-80 w-80 rounded-full bg-chilli/5 blur-[90px] pointer-events-none" />
+
+            <div className="absolute inset-0 bg-gradient-to-b from-olivewood via-olivewood/[0.92] to-[#23291D]/85 lg:bg-gradient-to-r lg:from-olivewood lg:via-olivewood/[0.88] lg:to-olivewood/[0.3]" />
+            
+            <div className="relative grid min-h-[640px] items-end gap-10 px-5 pt-8 pb-16 sm:px-8 sm:py-10 lg:grid-cols-[0.95fr_1.05fr] lg:px-10 lg:py-12">
+              
+              {/* Left Column: Title & Intro */}
+              <div className="animate-rise pb-2 lg:pb-6">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-[11px] font-black uppercase tracking-[0.2em] text-[#B8C1A2] backdrop-blur">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-olive opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-olive"></span>
+                  </span>
+                  <span>Coimbatore frozen food supplier</span>
+                </div>
+                
+                <p className="text-xs font-black uppercase tracking-[0.24em] text-turmeric/90 mb-2">Sakthi Frozen Foods Traders</p>
+                
+                <h1 className="brand-word font-display text-6xl font-black leading-[0.95] tracking-tight text-parchment sm:text-7xl lg:text-8xl">
                   Mock
-                  <span className="block text-olive">Meat</span>
+                  <span className="block text-olive mt-1">Meat</span>
                 </h1>
-                <p className="mt-6 max-w-2xl text-lg leading-8 text-parchment/[0.78]">
-                  {company.intro}
+                
+                <p className="mt-6 max-w-xl text-base leading-8 text-parchment/80 sm:text-lg">
+                  We supply delicious <strong className="text-white font-extrabold">plant-based meat</strong> and <strong className="text-white font-extrabold">frozen food products</strong> for caterers, hotels, restaurants, retailers and home-style kitchens.
                 </p>
+                
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Link
                     to="/products"
-                    className="inline-flex items-center justify-center gap-2 rounded-md bg-parchment px-6 py-3 font-black text-olivewood shadow-crisp transition hover:-translate-y-0.5 hover:bg-olive"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-parchment px-8 py-3.5 font-black text-olivewood shadow-soft transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-100"
                   >
                     Explore range <ArrowRight size={18} />
                   </Link>
@@ -59,27 +75,28 @@ export default function Home() {
                     href={getWhatsAppUrl()}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-md border border-white/20 bg-white/10 px-6 py-3 font-black text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/[0.18]"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 py-3.5 font-black text-white backdrop-blur transition-all duration-300 hover:scale-[1.02] hover:bg-green-600/10 hover:border-green-500/40 active:scale-95"
                   >
                     <MessageCircle size={18} /> WhatsApp enquiry
                   </a>
                 </div>
               </div>
 
+              {/* Right Column: Original Image Grid Layout styled cleanly */}
               <div className="animate-rise delay-150">
                 <div className="grid grid-cols-6 gap-3">
-                  <div className="col-span-6 overflow-hidden rounded-md shadow-crisp sm:col-span-4 sm:h-[390px]">
+                  <div className="col-span-6 overflow-hidden rounded-md shadow-crisp border border-white/10 sm:col-span-4 sm:h-[390px]">
                     <FoodImage
                       src={heroProducts.first?.image}
                       alt={heroProducts.first?.name}
                       category={heroProducts.first?.category}
                       className="h-full min-h-72 w-full"
-                      imgClassName="object-cover"
+                      imgClassName="object-cover transition-transform duration-700 hover:scale-105"
                     />
                   </div>
                   <div className="col-span-6 grid gap-3 sm:col-span-2">
                     {[heroProducts.second, heroProducts.third].filter(Boolean).map((product) => (
-                      <div key={product.name} className="overflow-hidden rounded-md bg-parchment p-2 shadow-crisp">
+                      <div key={product.name} className="overflow-hidden rounded-md bg-[#fffaf0] p-2 shadow-crisp border border-olivewood/10 transition-all duration-300 hover:scale-[1.02]">
                         <FoodImage
                           src={product.image}
                           alt={product.name}
@@ -94,9 +111,9 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-                <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                <div className="mt-4 flex flex-col sm:flex-row flex-wrap gap-3 pr-6 sm:pr-0">
                   {['Plant-based', 'No preservatives', 'Direct enquiry'].map((item) => (
-                    <div key={item} className="rounded-md border border-white/[0.12] bg-white/10 px-4 py-3 text-sm font-black text-parchment backdrop-blur">
+                    <div key={item} className="rounded-md border border-white/[0.12] bg-white/10 px-4 py-2.5 text-xs sm:text-sm font-black text-parchment text-center sm:text-left backdrop-blur-md">
                       {item}
                     </div>
                   ))}
@@ -128,21 +145,21 @@ export default function Home() {
         />
         <MobileSlider desktopCols={4}>
           {services.map((service) => (
-              <div key={service.title} className="group h-full overflow-hidden rounded-md bg-white/[0.58] shadow-soft ring-1 ring-olivewood/[0.08] transition hover:-translate-y-1 hover:bg-white">
-                <div className="h-48 sm:h-40 overflow-hidden">
-                  <FoodImage
-                    src={service.image}
-                    alt={service.title}
-                    category={service.title}
-                    className="h-full w-full"
-                    imgClassName="object-cover transition duration-700 group-hover:scale-110"
-                  />
-                </div>
-                <div className="p-5">
+            <div key={service.title} className="group h-full overflow-hidden rounded-md bg-white/[0.58] shadow-soft ring-1 ring-olivewood/[0.08] transition hover:-translate-y-1 hover:bg-white">
+              <div className="h-48 sm:h-40 overflow-hidden">
+                <FoodImage
+                  src={service.image}
+                  alt={service.title}
+                  category={service.title}
+                  className="h-full w-full"
+                  imgClassName="object-cover transition duration-700 group-hover:scale-110"
+                />
+              </div>
+              <div className="p-5">
                 <h3 className="font-display text-lg font-black">{service.title}</h3>
                 <p className="mt-2 text-sm leading-7 text-bark">{service.text}</p>
-                </div>
               </div>
+            </div>
           ))}
         </MobileSlider>
       </section>
@@ -178,7 +195,7 @@ export default function Home() {
             {strengths.map((item) => {
               const Icon = item.icon;
               return (
-            <div key={item.title} className="flex items-center gap-3 rounded-md bg-white/[0.58] p-4 shadow-insetLine">
+                <div key={item.title} className="flex items-center gap-3 rounded-md bg-white/[0.58] p-4 shadow-insetLine">
                   <Icon className="text-chilli" size={20} />
                   <span className="font-bold">{item.title}</span>
                 </div>

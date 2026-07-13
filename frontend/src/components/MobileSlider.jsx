@@ -1,9 +1,20 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 
-export default function MobileSlider({ children, desktopCols = 4 }) {
+export default function MobileSlider({ children, desktopCols = 4, autoPlay = true, autoPlayInterval = 3500 }) {
   const items = Array.isArray(children) ? children : [children];
   const scrollRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  const checkMobile = useCallback(() => {
+    setIsMobile(window.innerWidth < 640);
+  }, []);
+
+  useEffect(() => {
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, [checkMobile]);
 
   const handleScroll = useCallback(() => {
     const container = scrollRef.current;
@@ -22,14 +33,33 @@ export default function MobileSlider({ children, desktopCols = 4 }) {
     return () => container.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
-  const scrollTo = (index) => {
+  const scrollTo = useCallback((index) => {
     const container = scrollRef.current;
     if (!container) return;
     const child = container.children[index];
     if (child) {
-      child.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+      const containerLeft = container.getBoundingClientRect().left;
+      const childLeft = child.getBoundingClientRect().left;
+      const relativeLeft = childLeft - containerLeft + container.scrollLeft;
+      container.scrollTo({
+        left: relativeLeft,
+        behavior: 'smooth'
+      });
     }
-  };
+  }, []);
+
+  // Auto slide effect on mobile screens
+  useEffect(() => {
+    if (!isMobile || !autoPlay || items.length <= 1) return;
+
+    const timer = setInterval(() => {
+      const nextIndex = (activeIndex + 1) % items.length;
+      scrollTo(nextIndex);
+      setActiveIndex(nextIndex);
+    }, autoPlayInterval);
+
+    return () => clearInterval(timer);
+  }, [isMobile, autoPlay, autoPlayInterval, activeIndex, items.length, scrollTo]);
 
   const gridClass =
     desktopCols === 2
@@ -72,3 +102,4 @@ export default function MobileSlider({ children, desktopCols = 4 }) {
     </div>
   );
 }
+

@@ -7,7 +7,7 @@ const seoByPath = {
   '/': {
     title: 'tnmockmeat.com | Sakthi Frozen Foods Traders Coimbatore',
     description:
-      'Sakthi Frozen Foods Traders supplies plant-based mock meat, veg seafood, frozen snacks and frozen foods from Coimbatore across Tamil Nadu and Kerala.'
+      'Sakthi Frozen Foods Traders supplies plant-based mock meat, veg seafood, frozen snacks and frozen foods from Coimbatore all over India.'
   },
   '/about': {
     title: 'About Sakthi Frozen Foods Traders | Mock Meat Supplier Coimbatore',
@@ -15,12 +15,12 @@ const seoByPath = {
       'Learn about Sakthi Frozen Foods Traders, a Coimbatore-based supplier of mock meat and frozen foods led by Sakthidhasan.T, Proprietor.'
   },
   '/products': {
-    title: 'Mock Meat & Frozen Food Products | Tamil Nadu Kerala',
+    title: 'Mock Meat & Frozen Food Products | All Over India',
     description:
-      'Browse veg chicken, veg fish, veg mutton, veg prawns, frozen snacks, rolls, cutlets and frozen food products for Tamil Nadu and Kerala.'
+      'Browse veg chicken, veg fish, veg mutton, veg prawns, frozen snacks, rolls, cutlets and frozen food products all over India.'
   },
   '/services': {
-    title: 'Frozen Food Supply Services | Coimbatore Tamil Nadu Kerala',
+    title: 'Frozen Food Supply Services | Coimbatore All Over India',
     description:
       'Frozen food manufacturing, distribution, retail packs, bulk packs and menu support for restaurants, retailers and caterers.'
   },
@@ -32,7 +32,7 @@ const seoByPath = {
   '/contact': {
     title: 'Contact Sakthi Frozen Foods Traders | tnmockmeat.com',
     description:
-      'Contact Sakthi Frozen Foods Traders in Coimbatore for mock meat, frozen snacks and frozen food supply enquiries across Tamil Nadu and Kerala.'
+      'Contact Sakthi Frozen Foods Traders in Coimbatore for mock meat, frozen snacks and frozen food supply enquiries all over India.'
   },
   '/terms': {
     title: 'Terms and Conditions | tnmockmeat.com',

@@ -85,7 +85,7 @@ export const services = [
     title: 'Distribution',
     icon: Truck,
     image: 'https://res.cloudinary.com/thk8htfr/image/upload/v1783830124/veg_spring_roll_athpl7.png',
-    text: 'Regular supply support for Tamil Nadu and Kerala retailers, kitchens, hotels and food-service buyers.'
+    text: 'Regular supply support for all over India retailers, kitchens, hotels and food-service buyers.'
   },
   {
     title: 'Retail & Bulk Packs',

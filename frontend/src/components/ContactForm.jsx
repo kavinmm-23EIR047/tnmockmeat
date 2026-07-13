@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Send, CheckCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Send, CheckCircle, User, Phone, Mail, Briefcase, MessageSquare } from 'lucide-react';
 
 const initialState = {
   name: '',
@@ -42,6 +42,15 @@ export default function ContactForm() {
   const [form, setForm] = useState(initialState);
   const [status, setStatus] = useState({ type: '', message: '' });
   const [loading, setLoading] = useState(false);
+
+  // Lock body scroll when success popup modal is open
+  useEffect(() => {
+    const isSuccessOpen = status.type === 'success';
+    document.body.style.overflow = isSuccessOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [status.type]);
 
   function updateField(event) {
     const { name, value } = event.target;
@@ -86,115 +95,179 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-md bg-white/70 p-5 shadow-soft ring-1 ring-olivewood/[0.08] sm:p-7">
-      <div className="grid gap-4 sm:grid-cols-2">
-        <label className="grid gap-2 text-sm font-bold text-olivewood">
-          Name
-          <input
-            required
-            name="name"
-            value={form.name}
-            onChange={updateField}
-            disabled={loading}
-            className="rounded-md border border-olivewood/[0.15] bg-white px-4 py-3 outline-none transition focus:border-chilli disabled:opacity-50"
-            placeholder="Your name"
-          />
-        </label>
-        <label className="grid gap-2 text-sm font-bold text-olivewood">
-          Phone
-          <input
-            required
-            name="phone"
-            value={form.phone}
-            onChange={updateField}
-            disabled={loading}
-            className="rounded-md border border-olivewood/[0.15] bg-white px-4 py-3 outline-none transition focus:border-chilli disabled:opacity-50"
-            placeholder="+91"
-          />
-        </label>
-        <label className="grid gap-2 text-sm font-bold text-olivewood">
-          Email
-          <input
-            required
-            name="email"
-            type="email"
-            value={form.email}
-            onChange={updateField}
-            disabled={loading}
-            className="rounded-md border border-olivewood/[0.15] bg-white px-4 py-3 outline-none transition focus:border-chilli disabled:opacity-50"
-            placeholder="you@example.com"
-          />
-        </label>
-        <label className="grid gap-2 text-sm font-bold text-olivewood">
-          Business type
-          <select
-            name="businessType"
-            value={form.businessType}
-            onChange={updateField}
-            disabled={loading}
-            className="rounded-md border border-olivewood/[0.15] bg-white px-4 py-3 outline-none transition focus:border-chilli disabled:opacity-50"
-          >
-            <option value="">Select one</option>
-            <option>Retail store</option>
-            <option>Restaurant / Cafe</option>
-            <option>Caterer</option>
-            <option>Distributor</option>
-            <option>Home buyer</option>
-          </select>
-        </label>
+    <form onSubmit={handleSubmit} className="rounded-2xl bg-white/[0.85] p-6 shadow-crisp border border-black/5 sm:p-8 backdrop-blur-md">
+      <div className="grid gap-5 sm:grid-cols-2">
+        {/* Name Input */}
+        <div>
+          <label className="mb-1.5 block text-xs font-black uppercase tracking-wider text-olivewood/60">
+            Name
+          </label>
+          <div className="relative group">
+            <User className="absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-olivewood/35 transition-colors group-focus-within:text-chilli" />
+            <input
+              required
+              name="name"
+              value={form.name}
+              onChange={updateField}
+              disabled={loading}
+              className="w-full rounded-xl border border-olivewood/15 bg-white/40 pl-11 pr-4 py-3.5 text-sm outline-none transition focus:border-chilli focus:bg-white focus:ring-4 focus:ring-chilli/10 disabled:opacity-50"
+              placeholder="Your name"
+            />
+          </div>
+        </div>
+
+        {/* Phone Input */}
+        <div>
+          <label className="mb-1.5 block text-xs font-black uppercase tracking-wider text-olivewood/60">
+            Phone
+          </label>
+          <div className="relative group">
+            <Phone className="absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-olivewood/35 transition-colors group-focus-within:text-chilli" />
+            <input
+              required
+              name="phone"
+              value={form.phone}
+              onChange={updateField}
+              disabled={loading}
+              className="w-full rounded-xl border border-olivewood/15 bg-white/40 pl-11 pr-4 py-3.5 text-sm outline-none transition focus:border-chilli focus:bg-white focus:ring-4 focus:ring-chilli/10 disabled:opacity-50"
+              placeholder="+91"
+            />
+          </div>
+        </div>
+
+        {/* Email Input */}
+        <div>
+          <label className="mb-1.5 block text-xs font-black uppercase tracking-wider text-olivewood/60">
+            Email
+          </label>
+          <div className="relative group">
+            <Mail className="absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-olivewood/35 transition-colors group-focus-within:text-chilli" />
+            <input
+              required
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={updateField}
+              disabled={loading}
+              className="w-full rounded-xl border border-olivewood/15 bg-white/40 pl-11 pr-4 py-3.5 text-sm outline-none transition focus:border-chilli focus:bg-white focus:ring-4 focus:ring-chilli/10 disabled:opacity-50"
+              placeholder="you@example.com"
+            />
+          </div>
+        </div>
+
+        {/* Business Type Select */}
+        <div>
+          <label className="mb-1.5 block text-xs font-black uppercase tracking-wider text-olivewood/60">
+            Business type
+          </label>
+          <div className="relative group">
+            <Briefcase className="absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-olivewood/35 transition-colors group-focus-within:text-chilli pointer-events-none" />
+            <select
+              name="businessType"
+              value={form.businessType}
+              onChange={updateField}
+              disabled={loading}
+              className="w-full rounded-xl border border-olivewood/15 bg-white/40 pl-11 pr-10 py-3.5 text-sm outline-none transition focus:border-chilli focus:bg-white focus:ring-4 focus:ring-chilli/10 disabled:opacity-50 appearance-none"
+            >
+              <option value="">Select one</option>
+              <option>Retail store</option>
+              <option>Restaurant / Cafe</option>
+              <option>Caterer</option>
+              <option>Distributor</option>
+              <option>Home buyer</option>
+            </select>
+            {/* Custom dropdown arrow */}
+            <div className="absolute right-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 pointer-events-none text-olivewood/40">
+              <svg className="w-full h-full fill-current" viewBox="0 0 20 20">
+                <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
-      <label className="mt-4 grid gap-2 text-sm font-bold text-olivewood">
-        Message
-        <textarea
-          required
-          name="message"
-          rows="5"
-          value={form.message}
-          onChange={updateField}
+
+      {/* Message Textarea */}
+      <div className="mt-5">
+        <label className="mb-1.5 block text-xs font-black uppercase tracking-wider text-olivewood/60">
+          Message
+        </label>
+        <div className="relative group">
+          <MessageSquare className="absolute left-4 top-4 h-[18px] w-[18px] text-olivewood/35 transition-colors group-focus-within:text-chilli" />
+          <textarea
+            required
+            name="message"
+            rows="5"
+            value={form.message}
+            onChange={updateField}
+            disabled={loading}
+            className="w-full resize-none rounded-xl border border-olivewood/15 bg-white/40 pl-11 pr-4 py-3.5 text-sm outline-none transition focus:border-chilli focus:bg-white focus:ring-4 focus:ring-chilli/10 disabled:opacity-50"
+            placeholder="Tell us what products or supply support you need."
+          />
+        </div>
+      </div>
+
+      {/* Action Button */}
+      <div className="mt-6 flex flex-col items-stretch sm:items-start">
+        <button
           disabled={loading}
-          className="resize-none rounded-md border border-olivewood/[0.15] bg-white px-4 py-3 outline-none transition focus:border-chilli disabled:opacity-50"
-          placeholder="Tell us what products or supply support you need."
-        />
-      </label>
+          className="inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-chilli px-8 py-4 text-sm font-black text-white shadow-crisp transition-all duration-300 hover:scale-[1.02] hover:bg-chilli/90 active:scale-100 disabled:pointer-events-none sm:w-auto"
+        >
+          {loading ? (
+            <>
+              <Spinner />
+              <span>Sending your enquiry...</span>
+            </>
+          ) : (
+            <>
+              <Send size={16} />
+              <span>Send enquiry</span>
+            </>
+          )}
+        </button>
 
-      <button
-        disabled={loading}
-        className="mt-5 inline-flex w-full items-center justify-center gap-2.5 rounded-md bg-olivewood px-6 py-3.5 font-black text-parchment transition-all duration-300 hover:-translate-y-0.5 hover:bg-chilli disabled:pointer-events-none sm:w-auto"
-      >
-        {loading ? (
-          <>
-            <Spinner />
-            <span>Sending your enquiry...</span>
-          </>
-        ) : (
-          <>
-            <Send size={18} />
-            <span>Send enquiry</span>
-          </>
+
+
+        {/* Success Popup Modal */}
+        {status.type === 'success' && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 modal-backdrop-fade">
+            {/* Modal dismiss click area */}
+            <div 
+              className="absolute inset-0" 
+              onClick={() => setStatus({ type: '', message: '' })} 
+            />
+            
+            <div className="relative w-full max-w-sm rounded-2xl bg-white p-8 text-center shadow-2xl border border-black/5 enquiry-success-msg">
+              {/* Animated Success Check Indicator */}
+              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-green-50 text-green-600 ring-8 ring-green-50/50">
+                <CheckCircle size={32} strokeWidth={2.5} className="animate-pulse" />
+              </div>
+              
+              <h3 className="font-display text-xl font-black text-olivewood">
+                Enquiry Sent!
+              </h3>
+              
+              <p className="mt-3 text-sm leading-relaxed text-bark/80">
+                {status.message}
+              </p>
+              
+              <button
+                type="button"
+                onClick={() => setStatus({ type: '', message: '' })}
+                className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-chilli px-6 py-3.5 text-sm font-black text-white shadow-soft transition-all duration-300 hover:bg-chilli/90 hover:scale-[1.02] active:scale-100"
+              >
+                Got it, thanks!
+              </button>
+            </div>
+          </div>
         )}
-      </button>
 
-      {/* Loading progress bar */}
-      {loading && (
-        <div className="mt-4 overflow-hidden rounded-full bg-olivewood/10">
-          <div className="enquiry-progress-bar h-1.5 rounded-full bg-gradient-to-r from-chilli via-amber-500 to-green-600" />
-        </div>
-      )}
-
-      {/* Success message */}
-      {status.type === 'success' && (
-        <div className="enquiry-success-msg mt-4 flex items-center gap-2 rounded-lg bg-green-50 px-4 py-3 ring-1 ring-green-200">
-          <CheckCircle size={20} className="shrink-0 text-green-600" />
-          <p className="text-sm font-bold text-green-700">{status.message}</p>
-        </div>
-      )}
-
-      {/* Error message */}
-      {status.type === 'error' && (
-        <div className="enquiry-success-msg mt-4 flex items-center gap-2 rounded-lg bg-red-50 px-4 py-3 ring-1 ring-red-200">
-          <p className="text-sm font-bold text-chilli">{status.message}</p>
-        </div>
-      )}
+        {/* Error message */}
+        {status.type === 'error' && (
+          <div className="enquiry-success-msg mt-4 flex w-full items-center gap-2.5 rounded-xl bg-red-50 px-4 py-3.5 ring-1 ring-red-200">
+            <p className="text-sm font-bold text-chilli">{status.message}</p>
+          </div>
+        )}
+      </div>
     </form>
   );
 }
