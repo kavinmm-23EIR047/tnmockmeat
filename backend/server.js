@@ -11,7 +11,21 @@ import nodemailer from 'nodemailer';
 
 const backendDir = dirname(fileURLToPath(import.meta.url));
 
-dotenv.config({ path: join(backendDir, '.env') });
+const dotenvResult = dotenv.config({ path: join(backendDir, '.env') });
+if (dotenvResult.error) {
+  console.error('❌ Failed to load .env file:', dotenvResult.error.message);
+} else {
+  console.log('✅ .env file loaded successfully');
+}
+
+// Startup diagnostics — verify SMTP env vars are present
+console.log('📋 SMTP Config Check:');
+console.log('  SMTP_HOST:', process.env.SMTP_HOST ? '✅ set' : '❌ MISSING');
+console.log('  SMTP_PORT:', process.env.SMTP_PORT ? '✅ set' : '❌ MISSING');
+console.log('  SMTP_USER:', process.env.SMTP_USER ? '✅ set' : '❌ MISSING');
+console.log('  SMTP_PASS:', process.env.SMTP_PASS ? '✅ set (hidden)' : '❌ MISSING');
+console.log('  EMAIL_FROM:', process.env.EMAIL_FROM || '❌ MISSING');
+console.log('  COMPANY_EMAIL:', process.env.COMPANY_EMAIL || '❌ MISSING');
 
 export const app = express();
 export default app;
@@ -106,15 +120,21 @@ async function appendToSheet(enquiry) {
   });
 }
 
-// ✉️ Create global email transporter (initialize once)
+// ✉️ Create Brevo SMTP transporter (initialize once)
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  family: 4, // Force IPv4 to prevent connect ENETUNREACH on Render
+  host: process.env.SMTP_HOST || 'smtp-relay.brevo.com',
+  port: Number(process.env.SMTP_PORT) || 587,
+  secure: false,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 });
+
+// Verify SMTP connection on startup
+transporter.verify()
+  .then(() => console.log('✅ Brevo SMTP connection verified successfully'))
+  .catch((err) => console.error('❌ Brevo SMTP connection failed:', err.message));
 
 function formatAdminEmail(enquiry) {
   return [
@@ -302,24 +322,40 @@ app.post('/api/enquiries', async (request, response) => {
   });
 
   // ✅ Start background tasks (Sheets + Emails)
-  const from = process.env.MAIL_FROM || process.env.EMAIL_USER;
-  const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL_USER;
+  const emailFrom = `Sakthi Foods <${process.env.EMAIL_FROM || 'sakthifrozenfoods@gmail.com'}>`;
+  const companyEmail = process.env.COMPANY_EMAIL || process.env.EMAIL_FROM || 'sakthifrozenfoods@gmail.com';
+
+  console.log(`📧 Processing enquiry from ${enquiry.name} (${enquiry.email})`);
 
   Promise.allSettled([
     appendToSheet(enquiry),
+    // Send confirmation email to customer
     transporter.sendMail({
-      from,
+      from: emailFrom,
       to: enquiry.email,
-      subject: 'Thanks for contacting Sri Sakthi Foods',
+      subject: 'Thank You for Contacting Sakthi Frozen Foods',
       text: formatUserEmail(enquiry),
       html: formatUserEmailHtml(enquiry)
+    }),
+    // Send notification email to company
+    transporter.sendMail({
+      from: emailFrom,
+      to: companyEmail,
+      subject: `New Enquiry from ${enquiry.name}`,
+      text: formatAdminEmail(enquiry),
+      html: formatAdminEmailHtml(enquiry)
     })
   ]).then((results) => {
+    const labels = [
+      '✅ Saved to Google Sheets',
+      '📨 Customer confirmation email sent',
+      '📨 Admin notification email sent'
+    ];
     results.forEach((result, index) => {
       if (result.status === 'fulfilled') {
-        console.log(['✅ Saved to Google Sheets', '📨 Auto-reply sent'][index]);
+        console.log(labels[index]);
       } else {
-        console.error(['❌ Sheets error', '❌ Auto-reply failed'][index], result.reason.message);
+        console.error(`❌ ${labels[index]} — FAILED:`, result.reason.message);
       }
     });
   }).catch((err) => console.error('❌ Background task error:', err.message));
