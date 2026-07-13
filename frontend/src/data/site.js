@@ -117,7 +117,7 @@ export const audience = [
   { title: 'Distributors', icon: Truck }
 ];
 
-export const certifications = ['FSSAI Certified'];
+export const certifications = ['FSSAI Certified', 'MSME Registered'];
 
 export const legalLinks = [
   { label: 'Terms & Conditions', to: '/terms' },
