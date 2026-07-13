@@ -5,17 +5,13 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import { google } from 'googleapis';
-import nodemailer from 'nodemailer';
 
 // Load .env file if present (local dev). On Render, env vars come from the dashboard.
 dotenv.config();
 
-// Startup diagnostics — verify SMTP env vars are present
-console.log('📋 SMTP Config Check:');
-console.log('  SMTP_HOST:', process.env.SMTP_HOST ? '✅ set' : '❌ MISSING');
-console.log('  SMTP_PORT:', process.env.SMTP_PORT ? '✅ set' : '❌ MISSING');
-console.log('  SMTP_USER:', process.env.SMTP_USER ? '✅ set' : '❌ MISSING');
-console.log('  SMTP_PASS:', process.env.SMTP_PASS ? '✅ set (hidden)' : '❌ MISSING');
+// Startup diagnostics — verify Brevo API config
+console.log('📋 Brevo Email Config Check:');
+console.log('  BREVO_API_KEY:', process.env.BREVO_API_KEY ? '✅ set (hidden)' : '❌ MISSING');
 console.log('  EMAIL_FROM:', process.env.EMAIL_FROM || '❌ MISSING');
 console.log('  COMPANY_EMAIL:', process.env.COMPANY_EMAIL || '❌ MISSING');
 
@@ -112,21 +108,48 @@ async function appendToSheet(enquiry) {
   });
 }
 
-// ✉️ Create Brevo SMTP transporter (initialize once)
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp-relay.brevo.com',
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+// ✉️ Brevo HTTP API email sender
+const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
-// Verify SMTP connection on startup
-transporter.verify()
-  .then(() => console.log('✅ Brevo SMTP connection verified successfully'))
-  .catch((err) => console.error('❌ Brevo SMTP connection failed:', err.message));
+async function sendBrevoEmail({ from, to, subject, text, html }) {
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) {
+    throw new Error('BREVO_API_KEY is not configured');
+  }
+
+  // Parse "Name <email>" format or plain email
+  const fromMatch = from.match(/^(.+?)\s*<(.+)>$/);
+  const sender = fromMatch
+    ? { name: fromMatch[1].trim(), email: fromMatch[2].trim() }
+    : { email: from.trim() };
+
+  const body = {
+    sender,
+    to: [{ email: to }],
+    subject,
+    htmlContent: html,
+    textContent: text
+  };
+
+  const response = await fetch(BREVO_API_URL, {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'api-key': apiKey,
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(`Brevo API error ${response.status}: ${errorData.message || response.statusText}`);
+  }
+
+  const result = await response.json();
+  console.log(`  ↳ Brevo messageId: ${result.messageId}`);
+  return result;
+}
 
 function formatAdminEmail(enquiry) {
   return [
@@ -313,7 +336,7 @@ app.post('/api/enquiries', async (request, response) => {
     message: 'Thank you. Your enquiry has been sent successfully.'
   });
 
-  // ✅ Start background tasks (Sheets + Emails)
+  // ✅ Start background tasks (Sheets + Emails via Brevo HTTP API)
   const emailFrom = `Sakthi Foods <${process.env.EMAIL_FROM || 'sakthifrozenfoods@gmail.com'}>`;
   const companyEmail = process.env.COMPANY_EMAIL || process.env.EMAIL_FROM || 'sakthifrozenfoods@gmail.com';
 
@@ -321,16 +344,16 @@ app.post('/api/enquiries', async (request, response) => {
 
   Promise.allSettled([
     appendToSheet(enquiry),
-    // Send confirmation email to customer
-    transporter.sendMail({
+    // Send confirmation email to customer via Brevo HTTP API
+    sendBrevoEmail({
       from: emailFrom,
       to: enquiry.email,
       subject: 'Thank You for Contacting Sakthi Frozen Foods',
       text: formatUserEmail(enquiry),
       html: formatUserEmailHtml(enquiry)
     }),
-    // Send notification email to company
-    transporter.sendMail({
+    // Send notification email to company via Brevo HTTP API
+    sendBrevoEmail({
       from: emailFrom,
       to: companyEmail,
       subject: `New Enquiry from ${enquiry.name}`,
