@@ -78,7 +78,7 @@ export const services = [
   {
     title: 'Manufacturing',
     icon: Factory,
-    image: 'https://res.cloudinary.com/thk8htfr/image/upload/v1783830126/veg_mutton_jjevsa.png',
+    image: 'https://res.cloudinary.com/thk8htfr/image/upload/v1783830116/veg_mutton_curry_rueajw.png',
     text: 'Mock meat and frozen food preparation with consistent texture, portioning and frozen handling.'
   },
   {
@@ -90,7 +90,7 @@ export const services = [
   {
     title: 'Retail & Bulk Packs',
     icon: Boxes,
-    image: 'https://res.cloudinary.com/thk8htfr/image/upload/v1783830062/corn_cheese_balls_uj86wd.png',
+    image: 'https://res.cloudinary.com/thk8htfr/image/upload/v1783830099/panner_finger_jfxemn.png',
     text: 'Flexible product formats for stores, counters, caterers and professional kitchens.'
   },
   {
