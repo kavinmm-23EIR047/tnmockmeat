@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "node generate_assets.js && npm run build",
   "outputDirectory": "frontend/dist",
   "headers": [
     {
