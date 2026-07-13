@@ -8,7 +8,7 @@ import StatBand from '../components/StatBand.jsx';
 import { audience, company, products, services, strengths } from '../data/site.js';
 import { getWhatsAppUrl } from '../utils/contact.js';
 
-const topSellingProductNames = ['Veg Fish Fillet', 'Veg Chicken', 'Veg Liver', 'Corn Cheese Balls'];
+const topSellingProductNames = ['Veg Mutton', 'Veg Fish', 'Veg Lollipop Hand Made', 'Corn Cheese Balls'];
 
 export default function Home() {
   const topSellingProducts = topSellingProductNames
@@ -169,7 +169,7 @@ export default function Home() {
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <SectionHeader
               eyebrow="Top Selling Products"
-              title="Veg Fish Fillet, Veg Chicken, Veg Liver and Corn Cheese Balls."
+              title="Veg Mutton, Veg Fish, Veg Lollipop and Corn Cheese Balls."
               text="These are the major products highlighted on the home page for quick enquiry and easy browsing."
             />
             <Link to="/products" className="inline-flex items-center gap-2 font-black text-chilli hover:text-olivewood">
