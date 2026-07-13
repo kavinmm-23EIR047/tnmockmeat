@@ -3,7 +3,7 @@ export default function StatBand() {
     ['All', 'Over India'],
     ['100%', 'Business ready'],
     ['B2B', 'Supply ready'],
-    ['MSME', 'Udyam certified']
+    ['FSSAI', 'Certified']
   ];
 
   return (

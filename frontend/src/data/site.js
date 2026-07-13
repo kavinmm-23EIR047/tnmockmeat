@@ -51,7 +51,7 @@ export const products = [
   product('Veg Fish', 'Mock Seafood', 'https://res.cloudinary.com/thk8htfr/image/upload/v1783830097/veg_fish_djwnon.png', 'Sliceable fish-style portions for gravies, fries and tasting menus.', ['Plant based', 'Chef friendly', 'Frozen']),
   product('Veg Fish Fillet', 'Mock Seafood', 'https://res.cloudinary.com/thk8htfr/image/upload/v1783830094/veg_fish_fillet_sexnng.png', 'Fish-style fillet prepared for frying, coating and menu service.', ['Plant based', 'Ready to fry', 'Frozen']),
   product('Veg Chicken', 'Mock Meat', 'https://res.cloudinary.com/thk8htfr/image/upload/v1783830073/veg_chicken_dvaegf.png', 'Chicken-style plant-based product for curries, starters and quick-service menus.', ['Plant based', 'Chef friendly', 'Frozen']),
-  product('Veg Liver', 'Mock Meat', 'https://res.cloudinary.com/thk8htfr/image/upload/v1783830110/veg_liver_y2outn.png', 'Liver-style plant-based product for gravies, masala dishes and catering menus.', ['Plant based', 'Curry ready', 'Frozen']),
+  product('Veg Liver', 'Mock Meat', 'https://res.cloudinary.com/thk8htfr/image/upload/v1783935718/veg_liver_u3o42x.png', 'Liver-style plant-based product for gravies, masala dishes and catering menus.', ['Plant based', 'Curry ready', 'Frozen']),
   product('Veg Mutton', 'Mock Meat', 'https://res.cloudinary.com/thk8htfr/image/upload/v1783830126/veg_mutton_jjevsa.png', 'Protein-rich mock mutton style product for traditional recipes.', ['Plant based', 'Rich texture', 'Frozen']),
   product('Veg Mutton Curry', 'Mock Meat', 'https://res.cloudinary.com/thk8htfr/image/upload/v1783830116/veg_mutton_curry_rueajw.png', 'Mutton-style pieces for curry, masala and traditional preparations.', ['Plant based', 'Curry ready', 'Frozen']),
   product('Veg Prawn', 'Mock Seafood', 'https://res.cloudinary.com/thk8htfr/image/upload/v1783830123/veg_prawn_urnlbz.png', 'Plant-based prawn-style pieces for fried starters and curries.', ['Plant based', 'Protein rich', 'Frozen']),
@@ -117,7 +117,7 @@ export const audience = [
   { title: 'Distributors', icon: Truck }
 ];
 
-export const certifications = ['MSME Udyam Certified', 'FSSAI Certified'];
+export const certifications = ['FSSAI Certified'];
 
 export const legalLinks = [
   { label: 'Terms & Conditions', to: '/terms' },
