@@ -1,24 +1,38 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { CheckCircle2, Layers, Fish, Beef, Cookie, Sparkles, Snowflake } from 'lucide-react';
 import ProductCard from '../components/ProductCard.jsx';
 import SectionHeader from '../components/SectionHeader.jsx';
 import { products, veganMeatHighlights } from '../data/site.js';
+import { slugify } from '../utils/seo.js';
 
 const categoryIcons = {
   'All': Layers,
   'Mock Seafood': Fish,
   'Mock Meat': Beef,
-  'Breaded Frozen': Cookie,
+  'Hand Made Starters': Cookie,
+  'Veg Starters': Sparkles,
+  'Frozen Foods': Snowflake,
+  'Frozen Rolls': Layers,
   'Frozen Snacks': Sparkles
 };
 
 export default function Products() {
+  const { categorySlug } = useParams();
+  
   const categories = useMemo(() => ['All', ...new Set(products.map((product) => product.category))], []);
-  const [activeCategory, setActiveCategory] = useState('All');
-  const visibleProducts =
-    activeCategory === 'All'
+
+  const activeCategory = useMemo(() => {
+    if (!categorySlug) return 'All';
+    const match = categories.find((cat) => slugify(cat) === categorySlug);
+    return match || 'All';
+  }, [categorySlug, categories]);
+
+  const visibleProducts = useMemo(() => {
+    return activeCategory === 'All'
       ? products
       : products.filter((product) => product.category === activeCategory);
+  }, [activeCategory]);
 
   return (
     <section className="px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
@@ -63,11 +77,11 @@ export default function Products() {
             {categories.map((category) => {
               const Icon = categoryIcons[category] || Layers;
               const isActive = activeCategory === category;
+              const categoryUrl = category === 'All' ? '/products' : `/categories/${slugify(category)}`;
               return (
-                <button
+                <Link
                   key={category}
-                  type="button"
-                  onClick={() => setActiveCategory(category)}
+                  to={categoryUrl}
                   className={`inline-flex shrink-0 items-center gap-2 rounded-full px-5 py-2.5 text-xs sm:text-sm font-bold tracking-wide outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-chilli focus-visible:ring-offset-4 focus-visible:ring-offset-parchment ${
                     isActive
                       ? 'bg-chilli text-white shadow-crisp scale-102'
@@ -76,7 +90,7 @@ export default function Products() {
                 >
                   <Icon size={14} className={isActive ? 'text-white' : 'text-sage'} />
                   <span>{category}</span>
-                </button>
+                </Link>
               );
             })}
           </div>
