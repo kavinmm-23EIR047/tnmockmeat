@@ -172,7 +172,7 @@ export default function Home() {
           <SectionHeader
             eyebrow="Why choose us"
             title="Built for retailers, restaurants and distributors."
-            text="Sakthi Frozen Food Traders focuses on dependable product availability, frozen handling and useful choices for vegetarian and plant-based menus."
+            text="Sakthi Frozen Foods Traders focuses on dependable product availability, frozen handling and useful choices for vegetarian and plant-based menus."
           />
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
             {strengths.map((item) => {

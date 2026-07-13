@@ -9,7 +9,7 @@ export default function SectionHeader({ eyebrow, title, text, align = 'left' }) 
           </p>
         </div>
       )}
-      <h2 className="font-display text-3xl font-black leading-[1.05] text-olivewood sm:text-5xl">
+      <h2 className="font-display text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-black leading-[1.05] text-olivewood">
         {title}
       </h2>
       {text && <p className="mt-4 text-base leading-8 text-bark">{text}</p>}

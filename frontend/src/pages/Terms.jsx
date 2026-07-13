@@ -1,7 +1,7 @@
 import SectionHeader from '../components/SectionHeader.jsx';
 
 const terms = [
-  'This website is an official product and enquiry website for Sakthi Frozen Food Traders.',
+  'This website is an official product and enquiry website for Sakthi Frozen Foods Traders.',
   'All product details, images and descriptions are provided for general information, business enquiries and product selection.',
   'Product availability, packaging, dispatch timelines and commercial terms must be confirmed directly with the team.',
   'Specifications, branding, packaging and product availability may change from time to time.',

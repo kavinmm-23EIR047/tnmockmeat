@@ -12,7 +12,7 @@ export default function About() {
       />
       <div className="mt-10 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="rounded-md bg-olivewood p-8 text-parchment shadow-soft">
-          <p className="font-display text-4xl font-black">{company.shortName}</p>
+          <p className="font-display text-2xl xs:text-3xl sm:text-4xl font-black">{company.shortName}</p>
           <div className="mt-4 rounded-md bg-white/10 px-4 py-3">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-olive">{company.proprietorTitle}</p>
             <p className="mt-1 font-display text-2xl font-black text-parchment">{company.proprietor}</p>

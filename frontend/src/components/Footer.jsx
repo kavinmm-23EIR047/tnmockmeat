@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.3fr_0.8fr_1fr_0.9fr] lg:px-8">
         <div>
           <div className="mb-5 flex items-center gap-3">
-            <span className="grid h-12 w-12 place-items-center overflow-hidden rounded-md bg-parchment">
+            <span className="grid h-12 w-12 place-items-center overflow-hidden rounded-md bg-white p-1">
               <img src="/images/logo.png" alt={company.shortName} className="h-full w-full object-contain" />
             </span>
             <div>

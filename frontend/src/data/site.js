@@ -13,8 +13,8 @@ import {
 } from 'lucide-react';
 
 export const company = {
-  name: 'Sakthi Frozen Food Traders',
-  shortName: 'Sakthi Frozen Foods',
+  name: 'Sakthi Frozen Foods Traders',
+  shortName: 'Sakthi Frozen Foods Traders',
   proprietor: 'Sakthidhasan.T',
   proprietorTitle: 'Proprietor',
   tagline: 'Plant-based mock meat and frozen foods for modern kitchens.',

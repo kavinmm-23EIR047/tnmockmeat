@@ -42,7 +42,7 @@ export default function MobileSlider({ children, desktopCols = 4 }) {
     <div>
       <div
         ref={scrollRef}
-        className={`mobile-slider flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth ${gridClass}`}
+        className={`mobile-slider no-scrollbar flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth ${gridClass}`}
       >
         {items.map((child, i) => (
           <div

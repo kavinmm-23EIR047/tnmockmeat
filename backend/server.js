@@ -26,8 +26,8 @@ const businessPhone = (process.env.BUSINESS_PHONE || '').trim().replace(/^"|"$/g
 const whatsappUrl = (process.env.WHATSAPP_URL || '').trim().replace(/^"|"$/g, '');
 
 const brand = {
-  name: 'Sakthi Frozen Food Traders',
-  shortName: 'Sri Sakthi Foods',
+  name: 'Sakthi Frozen Foods Traders',
+  shortName: 'Sakthi Frozen Foods Traders',
   proprietor: 'Sakthidhasan.T',
   proprietorTitle: 'Proprietor',
   website: websiteUrl || 'https://tnmockmeat.com',
@@ -337,7 +337,7 @@ app.post('/api/enquiries', async (request, response) => {
   });
 
   // ✅ Start background tasks (Sheets + Emails via Brevo HTTP API)
-  const emailFrom = `Sakthi Foods <${process.env.EMAIL_FROM || 'sakthifrozenfoods@gmail.com'}>`;
+  const emailFrom = `Sakthi Frozen Foods Traders <${process.env.EMAIL_FROM || 'sakthifrozenfoods@gmail.com'}>`;
   const companyEmail = process.env.COMPANY_EMAIL || process.env.EMAIL_FROM || 'sakthifrozenfoods@gmail.com';
 
   console.log(`📧 Processing enquiry from ${enquiry.name} (${enquiry.email})`);
@@ -348,7 +348,7 @@ app.post('/api/enquiries', async (request, response) => {
     sendBrevoEmail({
       from: emailFrom,
       to: enquiry.email,
-      subject: 'Thank You for Contacting Sakthi Frozen Foods',
+      subject: 'Thank You for Contacting Sakthi Frozen Foods Traders',
       text: formatUserEmail(enquiry),
       html: formatUserEmailHtml(enquiry)
     }),

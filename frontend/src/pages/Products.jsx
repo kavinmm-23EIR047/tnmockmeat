@@ -1,8 +1,16 @@
 import { useMemo, useState } from 'react';
-import { CheckCircle2, Filter, Snowflake } from 'lucide-react';
+import { CheckCircle2, Layers, Fish, Beef, Cookie, Sparkles, Snowflake } from 'lucide-react';
 import ProductCard from '../components/ProductCard.jsx';
 import SectionHeader from '../components/SectionHeader.jsx';
 import { products, veganMeatHighlights } from '../data/site.js';
+
+const categoryIcons = {
+  'All': Layers,
+  'Mock Seafood': Fish,
+  'Mock Meat': Beef,
+  'Breaded Frozen': Cookie,
+  'Frozen Snacks': Sparkles
+};
 
 export default function Products() {
   const categories = useMemo(() => ['All', ...new Set(products.map((product) => product.category))], []);
@@ -46,25 +54,35 @@ export default function Products() {
           ))}
         </div>
 
-        <div className="mt-10 flex gap-2 overflow-x-auto pb-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              type="button"
-              onClick={() => setActiveCategory(category)}
-              className={`inline-flex shrink-0 items-center gap-2 rounded-md px-4 py-2 text-sm font-black shadow-insetLine outline-none transition focus-visible:ring-2 focus-visible:ring-chilli focus-visible:ring-offset-4 focus-visible:ring-offset-parchment ${
-                activeCategory === category
-                  ? 'bg-chilli text-white shadow-crisp'
-                  : 'bg-white/[0.58] text-olivewood hover:bg-white'
-              }`}
-            >
-              <Filter size={15} strokeWidth={2.8} />
-              {category}
-            </button>
-          ))}
+        <div className="relative mt-10">
+          {/* Subtle horizontal scroll fading indicators */}
+          <div className="pointer-events-none absolute right-0 top-0 bottom-2 z-10 w-12 bg-gradient-to-l from-parchment to-transparent sm:w-16" />
+          <div className="pointer-events-none absolute left-0 top-0 bottom-2 z-10 w-12 bg-gradient-to-r from-parchment to-transparent sm:w-16" />
+          
+          <div className="no-scrollbar flex gap-2 overflow-x-auto pb-3 px-4 -mx-4 sm:px-0 sm:mx-0">
+            {categories.map((category) => {
+              const Icon = categoryIcons[category] || Layers;
+              const isActive = activeCategory === category;
+              return (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => setActiveCategory(category)}
+                  className={`inline-flex shrink-0 items-center gap-2 rounded-full px-5 py-2.5 text-xs sm:text-sm font-bold tracking-wide outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-chilli focus-visible:ring-offset-4 focus-visible:ring-offset-parchment ${
+                    isActive
+                      ? 'bg-chilli text-white shadow-crisp scale-102'
+                      : 'bg-white/[0.6] text-bark hover:bg-white border border-olivewood/[0.08] hover:text-olivewood'
+                  }`}
+                >
+                  <Icon size={14} className={isActive ? 'text-white' : 'text-sage'} />
+                  <span>{category}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {visibleProducts.map((product) => (
             <ProductCard key={product.name} product={product} />
           ))}
@@ -73,3 +91,5 @@ export default function Products() {
     </section>
   );
 }
+
+
