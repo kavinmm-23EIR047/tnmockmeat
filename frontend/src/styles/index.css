@@ -212,3 +212,33 @@ select {
     transform: translateY(0) scale(1);
   }
 }
+
+/* Image skeleton shimmer loader */
+.skeleton-shimmer {
+  background: linear-gradient(135deg, #e2d9c4 0%, #d6ccb4 50%, #e2d9c4 100%);
+  animation: skeleton-pulse 1.8s ease-in-out infinite;
+}
+
+.skeleton-shimmer-inner {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.45) 40%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0.45) 60%,
+    transparent 100%
+  );
+  animation: skeleton-sweep 1.6s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.7; }
+}
+
+@keyframes skeleton-sweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}

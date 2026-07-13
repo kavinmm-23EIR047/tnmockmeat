@@ -7,8 +7,17 @@ const toneByCategory = {
   'Frozen Snacks': 'from-chilli/70 via-parchment to-white'
 };
 
+function SkeletonShimmer({ className = '' }) {
+  return (
+    <div className={`skeleton-shimmer ${className}`} aria-hidden="true">
+      <div className="skeleton-shimmer-inner" />
+    </div>
+  );
+}
+
 export default function FoodImage({ src, alt, category, className = '', imgClassName = '', loading = 'lazy' }) {
   const [failed, setFailed] = useState(!src);
+  const [loaded, setLoaded] = useState(false);
   const tone = toneByCategory[category] || 'from-olive/70 via-parchment to-white';
 
   if (failed) {
@@ -30,12 +39,20 @@ export default function FoodImage({ src, alt, category, className = '', imgClass
   }
 
   return (
-    <img
-      src={src}
-      alt={alt}
-      className={`${className} ${imgClassName}`}
-      loading={loading}
-      onError={() => setFailed(true)}
-    />
+    <div className={`relative overflow-hidden ${className}`}>
+      {/* Skeleton shimmer — visible until image loads */}
+      {!loaded && <SkeletonShimmer className="absolute inset-0 z-10" />}
+
+      {/* Actual image — fades in on load */}
+      <img
+        src={src}
+        alt={alt}
+        className={`${className} ${imgClassName} transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        loading={loading}
+        onLoad={() => setLoaded(true)}
+        onError={() => setFailed(true)}
+      />
+    </div>
   );
 }
+

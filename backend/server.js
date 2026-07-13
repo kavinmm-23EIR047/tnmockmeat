@@ -1,5 +1,3 @@
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import dns from 'node:dns';
 
 dns.setDefaultResultOrder('ipv4first');
@@ -9,14 +7,8 @@ import express from 'express';
 import { google } from 'googleapis';
 import nodemailer from 'nodemailer';
 
-const backendDir = dirname(fileURLToPath(import.meta.url));
-
-const dotenvResult = dotenv.config({ path: join(backendDir, '.env') });
-if (dotenvResult.error) {
-  console.error('❌ Failed to load .env file:', dotenvResult.error.message);
-} else {
-  console.log('✅ .env file loaded successfully');
-}
+// Load .env file if present (local dev). On Render, env vars come from the dashboard.
+dotenv.config();
 
 // Startup diagnostics — verify SMTP env vars are present
 console.log('📋 SMTP Config Check:');
