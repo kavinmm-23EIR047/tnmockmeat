@@ -83,8 +83,21 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="border-t border-white/10 px-4 py-5 text-center text-xs text-parchment/60">
-        © {new Date().getFullYear()} {company.name}. Mock meat and frozen foods.
+      
+      {/* Updated Bottom Bar */}
+      <div className="border-t border-white/10 px-4 py-5 text-center text-xs text-parchment/60 sm:flex sm:items-center sm:justify-between sm:text-left max-w-7xl mx-auto">
+        <p>© {new Date().getFullYear()} {company.name}. Mock meat and frozen foods.</p>
+        <p className="mt-2 sm:mt-0">
+          Developed by{' '}
+          <a 
+            href="https://akwebflairtechnologies.vercel.app" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="underline hover:text-white transition-colors"
+          >
+            akwebflairtechnologies
+          </a>
+        </p>
       </div>
     </footer>
   );
