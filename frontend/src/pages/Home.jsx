@@ -92,6 +92,7 @@ export default function Home() {
                       category={heroProducts.first?.category}
                       className="h-full min-h-72 w-full"
                       imgClassName="object-cover transition-transform duration-700 hover:scale-105"
+                      priority={true}
                     />
                   </div>
                   <div className="col-span-6 grid gap-3 sm:col-span-2">
@@ -103,6 +104,7 @@ export default function Home() {
                           category={product.category}
                           className="h-40 w-full rounded-md"
                           imgClassName="object-cover"
+                          priority={true}
                         />
                         <p className="px-2 pt-2 text-xs font-black uppercase tracking-[0.16em] text-olivewood">
                           {product.category}
