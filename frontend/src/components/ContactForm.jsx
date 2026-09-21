@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Send, CheckCircle, User, Phone, Mail, Briefcase, MessageSquare } from 'lucide-react';
+import { Send, CheckCircle, User, Phone, Mail, Briefcase, MessageSquare, MessageCircle } from 'lucide-react';
+import { company } from '../data/site.js';
 
 const initialState = {
   name: '',
@@ -40,7 +41,7 @@ function Spinner() {
 
 export default function ContactForm() {
   const [form, setForm] = useState(initialState);
-  const [status, setStatus] = useState({ type: '', message: '' });
+  const [status, setStatus] = useState({ type: '', message: '', url: '' });
   const [loading, setLoading] = useState(false);
 
   // Lock body scroll when success popup modal is open
@@ -60,34 +61,51 @@ export default function ContactForm() {
   async function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
-    setStatus({ type: '', message: '' });
+    setStatus({ type: '', message: '', url: '' });
 
     try {
+      /*
+      // --- Preserved Backend API Integration ---
+      // To re-enable sending to backend database / Google Sheets:
       const apiBaseUrl = import.meta.env.VITE_API_URL || '';
-      const startTime = Date.now();
-
-      const response = await fetch(`${apiBaseUrl}/api/enquiries`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
-      });
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Unable to send enquiry.');
+      if (apiBaseUrl) {
+        fetch(`${apiBaseUrl}/api/enquiries`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(form)
+        }).catch((err) => console.log('Backend sync skipped:', err));
       }
+      */
 
-      // Ensure spinner shows for at least 5 seconds total
-      const elapsed = Date.now() - startTime;
-      const remaining = Math.max(5000 - elapsed, 0);
-      await new Promise((resolve) => setTimeout(resolve, remaining));
+      const whatsappNumber = company.whatsapp || '918056389214';
+      const lines = [
+        `*New Enquiry - Sakthi Frozen Foods*`,
+        ``,
+        `*Name:* ${form.name.trim()}`,
+        `*Phone:* ${form.phone.trim()}`,
+        `*Email:* ${form.email.trim()}`,
+        `*Business Type:* ${form.businessType ? form.businessType : 'Not specified'}`,
+        ``,
+        `*Message:*`,
+        `${form.message.trim()}`
+      ];
 
-      setStatus({ type: 'success', message: 'Thank you! Your enquiry has been sent successfully.' });
+      const messageText = lines.join('\n');
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(messageText)}`;
+
+      // Direct WhatsApp redirection
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+
+      setStatus({
+        type: 'success',
+        message: 'Your enquiry has been prepared! Opening WhatsApp to send your message directly to +91 80563 89214.',
+        url: whatsappUrl
+      });
       setForm(initialState);
     } catch (error) {
       setStatus({
         type: 'error',
-        message: error.message || 'Please try again or use WhatsApp.'
+        message: error.message || 'Please try again or reach out on WhatsApp directly.'
       });
     } finally {
       setLoading(false);
@@ -233,29 +251,41 @@ export default function ContactForm() {
             {/* Modal dismiss click area */}
             <div 
               className="absolute inset-0" 
-              onClick={() => setStatus({ type: '', message: '' })} 
+              onClick={() => setStatus({ type: '', message: '', url: '' })} 
             />
             
             <div className="relative w-full max-w-sm rounded-2xl bg-white p-8 text-center shadow-2xl border border-black/5 enquiry-success-msg">
               {/* Animated Success Check Indicator */}
-              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-green-50 text-green-600 ring-8 ring-green-50/50">
+              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 ring-8 ring-emerald-50/50">
                 <CheckCircle size={32} strokeWidth={2.5} className="animate-pulse" />
               </div>
               
               <h3 className="font-display text-xl font-black text-olivewood">
-                Enquiry Sent!
+                Opening WhatsApp!
               </h3>
               
               <p className="mt-3 text-sm leading-relaxed text-bark/80">
                 {status.message}
               </p>
+
+              {status.url && (
+                <a
+                  href={status.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-600 px-6 py-3.5 text-sm font-black text-white shadow-soft transition-all duration-300 hover:bg-emerald-700 hover:scale-[1.02] active:scale-100"
+                >
+                  <MessageCircle size={18} />
+                  <span>Click here to open WhatsApp</span>
+                </a>
+              )}
               
               <button
                 type="button"
-                onClick={() => setStatus({ type: '', message: '' })}
-                className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-chilli px-6 py-3.5 text-sm font-black text-white shadow-soft transition-all duration-300 hover:bg-chilli/90 hover:scale-[1.02] active:scale-100"
+                onClick={() => setStatus({ type: '', message: '', url: '' })}
+                className="mt-3 inline-flex w-full items-center justify-center rounded-full bg-stone-100 px-6 py-2.5 text-xs font-bold text-olivewood hover:bg-stone-200 transition-colors"
               >
-                Got it, thanks!
+                Close
               </button>
             </div>
           </div>
