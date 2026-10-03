@@ -1,18 +1,20 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, MessageCircle, PackageCheck, Snowflake, Tags } from 'lucide-react';
+import { ArrowRight, MessageCircle, PackageCheck, ShoppingBag, Snowflake, Tags, ExternalLink } from 'lucide-react';
 import FoodImage from './FoodImage.jsx';
 import { getWhatsAppUrl } from '../utils/contact.js';
 import { slugify } from '../utils/seo.js';
+import { ECOMMERCE_URL } from '../utils/config.js';
 
 export default function ProductCard({ product, compact = false }) {
-  const enquiryUrl = getWhatsAppUrl(`Hello Mock Meat, I want to enquire about ${product.name}.`);
+  const enquiryUrl = getWhatsAppUrl(`Hello Sakthi Frozen Foods, I want to make a wholesale/B2B enquiry about ${product.name}.`);
   const productUrl = `/products/${slugify(product.name)}`;
+  const buyOnlineUrl = `${ECOMMERCE_URL}/shop?q=${encodeURIComponent(product.name)}`;
 
   return (
     <article className="scroll-reveal group relative flex h-full flex-col overflow-hidden rounded-md bg-white/[0.72] shadow-soft ring-1 ring-olivewood/[0.1] transition duration-300 sm:hover:-translate-y-1 sm:hover:shadow-crisp sm:focus-within:-translate-y-1 sm:focus-within:shadow-crisp">
-      <div className="absolute right-2 top-2 z-10 inline-flex items-center gap-1 rounded-md bg-parchment/95 px-2 py-1 text-[8px] xs:text-[10px] font-black uppercase tracking-[0.16em] text-olivewood shadow-insetLine backdrop-blur sm:right-3 sm:top-3 sm:px-3 sm:py-1.5">
-        <MessageCircle size={11} strokeWidth={2.8} className="sm:w-3.5 sm:h-3.5" />
-        Enquiry only
+      <div className="absolute right-2 top-2 z-10 inline-flex items-center gap-1 rounded-md bg-emerald-800/90 text-white px-2 py-1 text-[8px] xs:text-[10px] font-black uppercase tracking-[0.14em] shadow-sm backdrop-blur sm:right-3 sm:top-3 sm:px-2.5 sm:py-1">
+        <ShoppingBag size={11} strokeWidth={2.8} className="sm:w-3 sm:h-3" />
+        Order Online
       </div>
       <div className={compact ? 'h-36 xs:h-44 sm:h-52 overflow-hidden' : 'h-40 xs:h-48 sm:h-52 md:h-60 lg:h-64 overflow-hidden'}>
         <Link to={productUrl} className="block h-full">
@@ -45,16 +47,29 @@ export default function ProductCard({ product, compact = false }) {
             </span>
           ))}
         </div>
-        {!compact && (
+
+        {/* Action Links */}
+        <div className="mt-auto pt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 border-t border-olivewood/10 mt-4">
           <a
-            href={enquiryUrl}
+            href={buyOnlineUrl}
             target="_blank"
-            rel="noreferrer"
-            className="mt-auto inline-flex w-fit items-center gap-1.5 pt-3 text-[11px] xs:text-xs sm:text-sm font-black text-chilli outline-none transition hover:text-olivewood focus-visible:rounded-md focus-visible:ring-2 focus-visible:ring-chilli focus-visible:ring-offset-4 focus-visible:ring-offset-white sm:gap-2 sm:pt-5"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-1.5 rounded-md bg-emerald-800 px-3 py-1.5 text-[11px] xs:text-xs font-black text-white hover:bg-emerald-700 transition shadow-xs"
           >
-            Enquire on WhatsApp <ArrowRight size={14} strokeWidth={2.8} className="sm:w-4 sm:h-4" />
+            <ShoppingBag size={13} /> Buy Retail Online <ExternalLink size={10} className="opacity-70" />
           </a>
-        )}
+
+          {!compact && (
+            <a
+              href={enquiryUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-1 text-[11px] xs:text-xs font-bold text-chilli hover:text-olivewood transition py-1"
+            >
+              <MessageCircle size={13} /> Bulk Enquiry <ArrowRight size={12} />
+            </a>
+          )}
+        </div>
       </div>
     </article>
   );

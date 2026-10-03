@@ -1,11 +1,19 @@
 import { Link } from 'react-router-dom';
-import { Instagram, Mail, MapPin, Phone } from 'lucide-react';
+import { ExternalLink, Instagram, Mail, MapPin, Phone, ShoppingBag } from 'lucide-react';
 import { company, legalLinks, navLinks, certifications } from '../data/site.js';
+import { ECOMMERCE_URL } from '../utils/config.js';
 
 export default function Footer() {
+  const onlineStoreLinks = [
+    { label: 'Shop All Products', href: `${ECOMMERCE_URL}/shop` },
+    { label: 'Special Offers & Combos', href: `${ECOMMERCE_URL}/shop` },
+    { label: 'Track Order', href: `${ECOMMERCE_URL}/orders` },
+    { label: 'My Account', href: `${ECOMMERCE_URL}/account` },
+  ];
+
   return (
     <footer className="bg-olivewood text-parchment">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.3fr_0.8fr_1fr_0.9fr] lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_0.9fr_1fr_0.8fr] lg:px-8">
         <div>
           <div className="mb-5 flex items-center gap-3">
             <span className="grid h-12 w-12 place-items-center overflow-hidden rounded-md bg-white p-1">
@@ -18,7 +26,7 @@ export default function Footer() {
           </div>
           <p className="max-w-xl text-sm leading-7 text-parchment/[0.76]">
             Coimbatore-based supplier serving plant-based mock meat and frozen foods for hotels,
-            caterers, retailers and restaurants.
+            caterers, retailers, and restaurants all over India.
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
             {certifications.map((item) => (
@@ -31,13 +39,33 @@ export default function Footer() {
 
         <div>
           <p className="mb-4 font-display text-sm font-black uppercase tracking-[0.22em] text-olive">
-            Explore
+            Corporate
           </p>
           <div className="grid gap-3">
             {navLinks.map((link) => (
-              <Link key={link.to} to={link.to} className="text-sm text-parchment/[0.76] hover:text-white">
+              <Link key={link.to} to={link.to} className="text-sm text-parchment/[0.76] hover:text-white transition">
                 {link.label}
               </Link>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <p className="mb-4 font-display text-sm font-black uppercase tracking-[0.22em] text-emerald-400 flex items-center gap-1.5">
+            <ShoppingBag size={14} /> Online Store
+          </p>
+          <div className="grid gap-3">
+            {onlineStoreLinks.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-sm text-parchment/[0.76] hover:text-emerald-300 transition"
+              >
+                <span>{item.label}</span>
+                <ExternalLink size={11} className="opacity-60" />
+              </a>
             ))}
           </div>
         </div>
@@ -76,7 +104,7 @@ export default function Footer() {
           </p>
           <div className="grid gap-3 text-sm text-parchment/[0.76]">
             {legalLinks.map((link) => (
-              <Link key={link.to} to={link.to} className="hover:text-white">
+              <Link key={link.to} to={link.to} className="hover:text-white transition">
                 {link.label}
               </Link>
             ))}
@@ -84,7 +112,7 @@ export default function Footer() {
         </div>
       </div>
       
-      {/* Updated Bottom Bar */}
+      {/* Bottom Bar */}
       <div className="border-t border-white/10 px-4 py-5 text-center text-xs text-parchment/60 sm:flex sm:items-center sm:justify-between sm:text-left max-w-7xl mx-auto">
         <p>© {new Date().getFullYear()} {company.name}. Mock meat and frozen foods.</p>
         <p className="mt-2 sm:mt-0">

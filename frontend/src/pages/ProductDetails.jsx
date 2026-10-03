@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, MessageCircle, ShieldCheck, Clock, Snowflake, Info, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, MessageCircle, ShieldCheck, Clock, Snowflake, Info, CheckCircle2, ShoppingBag, ExternalLink } from 'lucide-react';
 import FoodImage from '../components/FoodImage.jsx';
 import { products, company } from '../data/site.js';
 import { slugify } from '../utils/seo.js';
 import { getWhatsAppUrl } from '../utils/contact.js';
+import { ECOMMERCE_URL, SITE_URL } from '../utils/config.js';
 
 export default function ProductDetails() {
   const { productSlug } = useParams();
@@ -26,8 +27,9 @@ export default function ProductDetails() {
     );
   }
 
-  const enquiryUrl = getWhatsAppUrl(`Hello, I would like to enquire about ${product.name} (Category: ${product.category}). Please provide the price and supply details.`);
-  const canonicalUrl = `https://tnmockmeat.com/products/${productSlug}`;
+  const enquiryUrl = getWhatsAppUrl(`Hello, I would like to make a B2B/wholesale enquiry about ${product.name} (Category: ${product.category}). Please provide the wholesale bulk price and delivery details.`);
+  const buyOnlineUrl = `${ECOMMERCE_URL}/shop?q=${encodeURIComponent(product.name)}`;
+  const canonicalUrl = `${SITE_URL}/products/${productSlug}`;
 
   // Breadcrumbs schema
   const breadcrumbSchema = {
@@ -38,19 +40,19 @@ export default function ProductDetails() {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://tnmockmeat.com"
+        "item": SITE_URL
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Products",
-        "item": "https://tnmockmeat.com/products"
+        "item": `${SITE_URL}/products`
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": product.category,
-        "item": `https://tnmockmeat.com/categories/${slugify(product.category)}`
+        "item": `${SITE_URL}/categories/${slugify(product.category)}`
       },
       {
         "@type": "ListItem",
@@ -61,34 +63,11 @@ export default function ProductDetails() {
     ]
   };
 
-  // Product schema
-  const productSchema = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": product.name,
-    "image": product.image,
-    "description": product.description,
-    "category": product.category,
-    "brand": {
-      "@type": "Brand",
-      "name": "Sakthi Frozen Foods Traders"
-    },
-    "offers": {
-      "@type": "Offer",
-      "url": canonicalUrl,
-      "priceCurrency": "INR",
-      "price": "0.00",
-      "priceValidUntil": "2030-12-31",
-      "availability": "https://schema.org/InStock",
-      "itemCondition": "https://schema.org/NewCondition"
-    }
-  };
-
   return (
     <>
       <Helmet>
         <title>{`${product.name} | Mock Meat & Frozen Food Supplier Coimbatore`}</title>
-        <meta name="description" content={`Get premium ${product.name} from Sakthi Frozen Foods Traders, Coimbatore. High protein, plant-based, and frozen freshness for restaurants, caterers, and retail.`} />
+        <meta name="description" content={`Get wholesale and retail ${product.name} from Sakthi Frozen Foods Traders, Coimbatore. High protein, plant-based, and frozen freshness for restaurants, caterers, and home kitchens.`} />
         <link rel="canonical" href={canonicalUrl} />
         
         {/* Open Graph */}
@@ -97,16 +76,16 @@ export default function ProductDetails() {
         <meta property="og:description" content={product.description} />
         <meta property="og:image" content={product.image} />
         <meta property="og:url" content={canonicalUrl} />
-        
+
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${product.name} | Sakthi Frozen Foods Traders`} />
         <meta name="twitter:description" content={product.description} />
         <meta name="twitter:image" content={product.image} />
-
-        {/* Structured Data */}
-        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
+        
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbSchema)}
+        </script>
       </Helmet>
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -123,9 +102,8 @@ export default function ProductDetails() {
           <span className="text-olivewood font-extrabold">{product.name}</span>
         </nav>
 
-        {/* Product Details Section */}
         <div className="grid gap-8 lg:grid-cols-2">
-          {/* Product Image Panel */}
+          {/* Product Media Display */}
           <div className="overflow-hidden rounded-md bg-white p-2 shadow-soft ring-1 ring-olivewood/10 sm:p-4">
             <div className="aspect-square w-full overflow-hidden rounded-md">
               <FoodImage
@@ -141,9 +119,14 @@ export default function ProductDetails() {
           {/* Product Info Panel */}
           <div className="flex flex-col justify-between">
             <div>
-              <span className="inline-flex items-center gap-1 rounded-md bg-olive/[0.3] px-3 py-1 text-xs font-extrabold text-olivewood">
-                <Snowflake size={12} className="text-chilli" /> {product.category}
-              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1 rounded-md bg-olive/[0.3] px-3 py-1 text-xs font-extrabold text-olivewood">
+                  <Snowflake size={12} className="text-chilli" /> {product.category}
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-md bg-emerald-800/10 px-3 py-1 text-xs font-black text-emerald-800">
+                  <ShoppingBag size={12} /> Available Online
+                </span>
+              </div>
               <h1 className="mt-3 font-display text-3xl font-black leading-tight sm:text-4xl lg:text-5xl text-olivewood">
                 {product.name}
               </h1>
@@ -220,21 +203,32 @@ export default function ProductDetails() {
 
             {/* Action buttons */}
             <div className="mt-8 border-t border-olivewood/10 pt-6">
-              <div className="flex flex-col gap-4 sm:flex-row">
+              <div className="flex flex-col gap-3">
                 <a
-                  href={enquiryUrl}
+                  href={buyOnlineUrl}
                   target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex flex-1 items-center justify-center gap-2 rounded-md bg-chilli px-8 py-4 text-center text-base font-black text-white shadow-crisp hover:bg-chilli/95 hover:-translate-y-0.5 transition-all duration-300"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-emerald-800 px-8 py-4 text-center text-base font-black text-white shadow-crisp hover:bg-emerald-700 hover:-translate-y-0.5 transition-all duration-300"
                 >
-                  <MessageCircle size={20} /> Enquire on WhatsApp
+                  <ShoppingBag size={20} /> Buy Retail Online (Home Delivery) <ExternalLink size={16} className="opacity-70" />
                 </a>
-                <Link
-                  to="/contact"
-                  className="inline-flex flex-1 items-center justify-center rounded-md bg-white border border-olivewood/10 px-8 py-4 text-center text-base font-black text-olivewood hover:bg-white/80 transition-all duration-300"
-                >
-                  Request Bulk Quote
-                </Link>
+
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <a
+                    href={enquiryUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-md bg-chilli px-6 py-3.5 text-center text-sm font-black text-white shadow-sm hover:bg-chilli/95 transition-all"
+                  >
+                    <MessageCircle size={18} /> WhatsApp Bulk Enquiry
+                  </a>
+                  <Link
+                    to="/contact"
+                    className="inline-flex flex-1 items-center justify-center rounded-md bg-white border border-olivewood/15 px-6 py-3.5 text-center text-sm font-black text-olivewood hover:bg-white/80 transition-all"
+                  >
+                    Request B2B Quote
+                  </Link>
+                </div>
               </div>
               <p className="mt-3 text-center text-xs text-bark">
                 * Note: We supply in bulk quantities all over Tamil Nadu, Kerala, and across India.

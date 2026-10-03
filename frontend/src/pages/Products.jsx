@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { CheckCircle2, Layers, Fish, Beef, Cookie, Sparkles, Snowflake } from 'lucide-react';
+import { CheckCircle2, Layers, Fish, Beef, Cookie, Sparkles, Snowflake, ShoppingBag, ExternalLink } from 'lucide-react';
 import ProductCard from '../components/ProductCard.jsx';
 import SectionHeader from '../components/SectionHeader.jsx';
 import { products, veganMeatHighlights } from '../data/site.js';
 import { slugify } from '../utils/seo.js';
+import { ECOMMERCE_URL } from '../utils/config.js';
 
 const categoryIcons = {
   'All': Layers,
@@ -34,6 +35,10 @@ export default function Products() {
       : products.filter((product) => product.category === activeCategory);
   }, [activeCategory]);
 
+  const ecommerceCategoryUrl = activeCategory === 'All'
+    ? `${ECOMMERCE_URL}/shop`
+    : `${ECOMMERCE_URL}/shop?category=${encodeURIComponent(activeCategory)}`;
+
   return (
     <section className="px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -43,11 +48,23 @@ export default function Products() {
             title="Browse mock meat and frozen foods by category."
             text="Our vegan meat range is sustainable, plant-based and protein-rich, with Ready to Cook, Ready to Eat and Ready to Fry options."
           />
-          <div className="scroll-reveal rounded-md bg-olivewood p-5 text-parchment shadow-crisp ring-1 ring-white/10 sm:p-6">
-            <p className="font-display text-2xl font-black">Frozen supply for direct enquiries.</p>
-            <p className="mt-2 text-sm leading-7 text-parchment/[0.72]">
-              No preservatives. Shelf stable at -18°C for up to 24 months from the date of packing.
-            </p>
+          <div className="scroll-reveal rounded-md bg-olivewood p-5 text-parchment shadow-crisp ring-1 ring-white/10 sm:p-6 flex flex-col justify-between">
+            <div>
+              <p className="font-display text-2xl font-black">B2B Wholesale & Retail Home Delivery</p>
+              <p className="mt-2 text-sm leading-7 text-parchment/[0.72]">
+                Preservative-free plant foods. Shelf stable at -18°C for up to 24 months from packing. Available for bulk catering supply and direct online shopping.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-white/10">
+              <a
+                href={`${ECOMMERCE_URL}/shop`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-emerald-700 hover:bg-emerald-600 px-5 py-2 text-xs font-black text-white shadow-sm transition"
+              >
+                <ShoppingBag size={14} /> Shop Retail Packs Online <ExternalLink size={12} className="opacity-70" />
+              </a>
+            </div>
           </div>
         </div>
 
@@ -96,7 +113,22 @@ export default function Products() {
           </div>
         </div>
 
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        {/* E-commerce category quick banner */}
+        <div className="mt-4 flex items-center justify-between rounded-md bg-emerald-900/10 px-4 py-3 text-xs sm:text-sm text-olivewood border border-emerald-800/15">
+          <span className="font-bold">
+            Showing <strong className="font-black">{activeCategory}</strong> catalog ({visibleProducts.length} items).
+          </span>
+          <a
+            href={ecommerceCategoryUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 font-black text-emerald-800 hover:text-emerald-950 hover:underline"
+          >
+            <ShoppingBag size={14} /> Buy {activeCategory === 'All' ? 'Online' : activeCategory} in Store <ExternalLink size={12} />
+          </a>
+        </div>
+
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {visibleProducts.map((product) => (
             <ProductCard key={product.name} product={product} />
           ))}
@@ -105,5 +137,3 @@ export default function Products() {
     </section>
   );
 }
-
-

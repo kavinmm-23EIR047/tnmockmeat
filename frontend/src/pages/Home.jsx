@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle2, MapPin, MessageCircle, Snowflake } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ExternalLink, MapPin, MessageCircle, ShoppingBag, Snowflake } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import FoodImage from '../components/FoodImage.jsx';
 import MobileSlider from '../components/MobileSlider.jsx';
@@ -7,6 +7,7 @@ import SectionHeader from '../components/SectionHeader.jsx';
 import StatBand from '../components/StatBand.jsx';
 import { audience, company, products, services, strengths } from '../data/site.js';
 import { getWhatsAppUrl } from '../utils/contact.js';
+import { ECOMMERCE_URL } from '../utils/config.js';
 
 const topSellingProductNames = ['Veg Mutton', 'Veg Fish', 'Veg Lollipop Hand Made', 'Corn Cheese Balls'];
 
@@ -64,20 +65,28 @@ export default function Home() {
                   We supply delicious <strong className="text-white font-extrabold">plant-based meat</strong> and <strong className="text-white font-extrabold">frozen food products</strong> for caterers, hotels, restaurants, retailers and home-style kitchens.
                 </p>
                 
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row flex-wrap">
+                  <a
+                    href={`${ECOMMERCE_URL}/shop`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-800 hover:bg-emerald-700 px-7 py-3.5 font-black text-white shadow-soft transition-all duration-300 hover:scale-[1.02] active:scale-100"
+                  >
+                    <ShoppingBag size={18} /> Order Online (Home Delivery)
+                  </a>
                   <Link
                     to="/products"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-parchment px-8 py-3.5 font-black text-olivewood shadow-soft transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-100"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-parchment px-6 py-3.5 font-black text-olivewood shadow-soft transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-100"
                   >
                     Explore range <ArrowRight size={18} />
                   </Link>
                   <a
-                    href={getWhatsAppUrl()}
+                    href={getWhatsAppUrl('Hello, I would like to make a B2B wholesale enquiry with Sakthi Frozen Foods.')}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 py-3.5 font-black text-white backdrop-blur transition-all duration-300 hover:scale-[1.02] hover:bg-green-600/10 hover:border-green-500/40 active:scale-95"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3.5 font-black text-white backdrop-blur transition-all duration-300 hover:scale-[1.02] hover:bg-green-600/10 hover:border-green-500/40 active:scale-95"
                   >
-                    <MessageCircle size={18} /> WhatsApp enquiry
+                    <MessageCircle size={18} /> Wholesale enquiry
                   </a>
                 </div>
               </div>
@@ -143,7 +152,7 @@ export default function Home() {
         <SectionHeader
           eyebrow="What we do"
           title="Frozen products for kitchens that want variety, speed and vegetarian-friendly choices."
-          text="The website explains the company, product categories, distribution areas and enquiry options. Customers can view products and contact the team, but they cannot add to cart or place online orders."
+          text="Explore our plant-based mock meat and frozen food selections for hotels, restaurants, caterers, and retail kitchens. Order online for doorstep delivery or contact us for wholesale bulk pricing."
         />
         <MobileSlider desktopCols={4}>
           {services.map((service) => (
@@ -172,11 +181,21 @@ export default function Home() {
             <SectionHeader
               eyebrow="Top Selling Products"
               title="Veg Mutton, Veg Fish, Veg Lollipop and Corn Cheese Balls."
-              text="These are the major products highlighted on the home page for quick enquiry and easy browsing."
+              text="These are the major products highlighted on the home page for quick enquiry, online shopping, and easy browsing."
             />
-            <Link to="/products" className="inline-flex items-center gap-2 font-black text-chilli hover:text-olivewood">
-              See all products <ArrowRight size={18} />
-            </Link>
+            <div className="flex items-center gap-4">
+              <a
+                href={`${ECOMMERCE_URL}/shop`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 font-extrabold text-emerald-800 hover:text-emerald-700"
+              >
+                <ShoppingBag size={16} /> Shop online <ExternalLink size={13} />
+              </a>
+              <Link to="/products" className="inline-flex items-center gap-1.5 font-black text-chilli hover:text-olivewood">
+                See all products <ArrowRight size={18} />
+              </Link>
+            </div>
           </div>
           <MobileSlider desktopCols={4}>
             {topSellingProducts.map((product) => (

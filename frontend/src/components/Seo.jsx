@@ -2,8 +2,9 @@ import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { slugify } from '../utils/seo.js';
+import { SITE_URL } from '../utils/config.js';
 
-const siteUrl = 'https://tnmockmeat.com';
+const siteUrl = SITE_URL.replace(/\/+$/, '');
 
 const seoByPath = {
   '/': {
@@ -44,9 +45,10 @@ const seoByPath = {
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": `${siteUrl}/#organization`,
   "name": "Sakthi Frozen Foods Traders",
-  "url": "https://tnmockmeat.com/",
-  "logo": "https://tnmockmeat.com/images/logo.png",
+  "url": `${siteUrl}/`,
+  "logo": `${siteUrl}/images/logo.png`,
   "email": "Sakthifrozenfoods@gmail.com",
   "telephone": "+91 80563 89214"
 };
@@ -55,7 +57,8 @@ const organizationSchema = {
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "url": "https://tnmockmeat.com/",
+  "@id": `${siteUrl}/#website`,
+  "url": `${siteUrl}/`,
   "name": "Sakthi Frozen Foods Traders"
 };
 
@@ -63,12 +66,12 @@ const websiteSchema = {
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "@id": "https://tnmockmeat.com",
+  "@id": `${siteUrl}/#localbusiness`,
   "name": "Sakthi Frozen Foods Traders",
   "alternateName": "Sakthi Frozen Foods",
-  "url": "https://tnmockmeat.com/",
-  "logo": "https://tnmockmeat.com/images/logo.png",
-  "image": "https://tnmockmeat.com/og-image.jpg",
+  "url": `${siteUrl}/`,
+  "logo": `${siteUrl}/images/logo.png`,
+  "image": `${siteUrl}/images/logo.png`,
   "description": "Leading supplier of plant-based mock meat, veg seafood, frozen snacks, and frozen foods in Coimbatore serving customers across India.",
   "telephone": "+91 80563 89214",
   "email": "Sakthifrozenfoods@gmail.com",
@@ -157,7 +160,7 @@ export default function Seo() {
 
       return {
         title: `${rawName} | Plant-Based Frozen Food Products Coimbatore`,
-        description: `Buy wholesale and bulk ${rawName} products from Sakthi Frozen Foods Traders, Coimbatore. High-protein, clean ingredients, perfect for catering and retail.`,
+        description: `Wholesale and retail ${rawName} products from Sakthi Frozen Foods Traders, Coimbatore. High-protein, clean ingredients, perfect for catering and retail.`,
         isDynamicCategory: true,
         categoryName: rawName
       };
@@ -226,14 +229,14 @@ export default function Seo() {
       <meta property="og:title" content={seoData.title} />
       <meta property="og:description" content={seoData.description} />
       <meta property="og:url" content={currentCanonical} />
-      <meta property="og:image" content={`${siteUrl}/og-image.jpg`} />
+      <meta property="og:image" content={`${siteUrl}/images/logo.png`} />
       <meta property="og:locale" content="en_IN" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={seoData.title} />
       <meta name="twitter:description" content={seoData.description} />
-      <meta name="twitter:image" content={`${siteUrl}/og-image.jpg`} />
+      <meta name="twitter:image" content={`${siteUrl}/images/logo.png`} />
 
       {/* Structured Data Scripts */}
       {pathname === '/' && (
