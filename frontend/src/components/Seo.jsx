@@ -94,7 +94,7 @@ const localBusinessSchema = {
     "latitude": "11.0168",
     "longitude": "76.9558"
   },
-  "hasMap": "https://maps.app.goo.gl/eJ5ZgEPHa85XQLSL7?g_st=awb",
+  "hasMap": "https://maps.app.goo.gl/MC1p5twNCxzqwZ659",
   "openingHoursSpecification": [
     {
       "@type": "OpeningHoursSpecification",

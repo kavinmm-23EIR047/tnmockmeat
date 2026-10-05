@@ -21,7 +21,7 @@ export default function Footer() {
             </span>
             <div>
               <p className="font-display text-xl font-black">{company.name}</p>
-              <p className="text-sm text-parchment/70">Mock meat and frozen foods</p>
+              <p className="text-sm text-parchment/70">Mock meat &amp; frozen foods</p>
             </div>
           </div>
           <p className="max-w-xl text-sm leading-7 text-parchment/[0.76]">
@@ -30,9 +30,13 @@ export default function Footer() {
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
             {certifications.map((item) => (
-              <span key={item} className="rounded-md border border-white/10 bg-white/5 px-3 py-1 text-xs font-bold text-parchment/80">
+              <Link
+                key={item}
+                to="/licenses"
+                className="rounded-md border border-white/10 bg-white/5 px-3 py-1 text-xs font-bold text-parchment/80 transition hover:border-white/30 hover:bg-white/10 hover:text-white"
+              >
                 {item}
-              </span>
+              </Link>
             ))}
           </div>
         </div>
@@ -75,10 +79,10 @@ export default function Footer() {
             Contact
           </p>
           <div className="grid gap-3 text-sm text-parchment/[0.76]">
-            <span className="flex gap-3">
+            <a className="flex gap-3 hover:text-white transition" href={company.mapsUrl} target="_blank" rel="noreferrer">
               <MapPin size={18} className="shrink-0 text-olive" />
               {company.location}
-            </span>
+            </a>
             <a className="flex gap-3 hover:text-white" href={`tel:${company.phone.replaceAll(' ', '')}`}>
               <Phone size={18} className="shrink-0 text-olive" />
               {company.phone}
@@ -114,7 +118,7 @@ export default function Footer() {
       
       {/* Bottom Bar */}
       <div className="border-t border-white/10 px-4 py-5 text-center text-xs text-parchment/60 sm:flex sm:items-center sm:justify-between sm:text-left max-w-7xl mx-auto">
-        <p>© {new Date().getFullYear()} {company.name}. Mock meat and frozen foods.</p>
+        <p>© {new Date().getFullYear()} {company.name}. Mock meat &amp; frozen foods.</p>
         <p className="mt-2 sm:mt-0">
           Developed by{' '}
           <a 

@@ -14,6 +14,7 @@ import Gallery from './pages/Gallery.jsx';
 import Contact from './pages/Contact.jsx';
 import Terms from './pages/Terms.jsx';
 import Privacy from './pages/Privacy.jsx';
+import Licenses from './pages/Licenses.jsx';
 import NotFound from './pages/NotFound.jsx';
 
 function ScrollToTop() {
@@ -45,6 +46,7 @@ export default function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/licenses" element={<Licenses />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

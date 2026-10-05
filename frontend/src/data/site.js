@@ -26,7 +26,7 @@ export const company = {
   email: 'Sakthifrozenfoods@gmail.com',
   instagram: 'mock_meat_coimbatore',
   location: '10, 11, Tank Road, Kavundampalayam, Coimbatore - 641030',
-  mapsUrl: 'https://maps.app.goo.gl/eJ5ZgEPHa85XQLSL7?g_st=awb'
+  mapsUrl: 'https://maps.app.goo.gl/MC1p5twNCxzqwZ659'
 };
 
 export const navLinks = [
@@ -35,6 +35,7 @@ export const navLinks = [
   { label: 'Products', to: '/products' },
   { label: 'Services', to: '/services' },
   { label: 'Gallery', to: '/gallery' },
+  { label: 'Licenses', to: '/licenses' },
   { label: 'Contact', to: '/contact' }
 ];
 
@@ -117,7 +118,7 @@ export const audience = [
   { title: 'Distributors', icon: Truck }
 ];
 
-export const certifications = ['FSSAI Certified', 'MSME Registered'];
+export const certifications = ['FSSAI Certified', 'GST Registered', 'MSME Registered'];
 
 export const legalLinks = [
   { label: 'Terms & Conditions', to: '/terms' },
