@@ -18,11 +18,11 @@ export default function Header() {
   return (
     <>
       <header className="sticky top-0 z-40 w-full border-b border-black/10 bg-[#E9DFC9]/90 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-6 lg:px-8">
 
           {/* Logo and Brand Info */}
-          <Link to="/" className="flex flex-shrink-0 items-center gap-3" onClick={() => setOpen(false)}>
-            <div className="h-11 w-11 flex-shrink-0 overflow-hidden rounded-md">
+          <Link to="/" className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3" onClick={() => setOpen(false)}>
+            <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-md sm:h-11 sm:w-11">
               <img
                 src="/images/logo.png"
                 alt={company.name}
@@ -31,10 +31,10 @@ export default function Header() {
               />
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="truncate font-display text-base font-black leading-tight text-[#23291D]">
+              <span className="truncate font-display text-sm font-black leading-tight text-[#23291D] sm:text-base">
                 {company.name}
               </span>
-              <span className="truncate text-[9px] font-extrabold uppercase tracking-widest text-[#23291D]/70">
+              <span className="truncate text-[8px] font-extrabold uppercase tracking-wider text-[#23291D]/70 sm:text-[9px] sm:tracking-widest">
                 Mock meat & frozen foods
               </span>
             </div>
@@ -81,12 +81,12 @@ export default function Header() {
           </div>
 
           {/* Mobile Hamburger Button */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex flex-shrink-0 items-center gap-1.5 lg:hidden sm:gap-2">
             <a
               href={`${ECOMMERCE_URL}/shop`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 rounded-full bg-emerald-800 px-3.5 py-1.5 text-xs font-black text-white shadow-sm active:scale-95"
+              className="inline-flex h-9 items-center gap-1 rounded-full bg-emerald-800 px-3 text-xs font-black text-white shadow-sm active:scale-95 sm:px-3.5"
             >
               <ShoppingBag size={13} />
               <span>Shop</span>
@@ -140,7 +140,7 @@ export default function Header() {
                 to={link.to}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  `block rounded-lg px-3 py-3.5 text-lg font-bold transition-colors ${isActive
+                  `block rounded-lg px-3 py-3 text-base font-bold transition-colors ${isActive
                     ? 'bg-[#23291D]/10 text-[#23291D]'
                     : 'text-[#23291D]/80 hover:bg-[#23291D]/5'
                   }`
@@ -158,7 +158,7 @@ export default function Header() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-800 py-3.5 text-center text-base font-black text-white shadow-md transition-transform active:scale-95"
+              className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-800 px-3 py-3 text-center text-sm font-black text-white shadow-md transition-transform active:scale-95"
             >
               <ShoppingBag size={18} />
               Shop Online (Doorstep Delivery)
@@ -167,7 +167,7 @@ export default function Header() {
             <Link
               to="/contact"
               onClick={() => setOpen(false)}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#23291D] py-3 text-center text-sm font-black text-[#E9DFC9] shadow-sm transition-transform active:scale-95"
+              className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#23291D] px-3 py-3 text-center text-xs font-black text-[#E9DFC9] shadow-sm transition-transform active:scale-95"
             >
               <Sparkles size={16} />
               B2B / Wholesale Enquiry

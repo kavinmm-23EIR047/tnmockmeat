@@ -56,7 +56,7 @@ export default function Home() {
                 
                 <p className="text-xs font-black uppercase tracking-[0.24em] text-turmeric/90 mb-2">Sakthi Frozen Foods Traders</p>
                 
-                <h1 className="brand-word font-display text-6xl font-black leading-[0.95] tracking-tight text-parchment sm:text-7xl lg:text-8xl">
+                <h1 className="brand-word font-display text-5xl font-black leading-[0.95] tracking-tight text-parchment sm:text-7xl lg:text-8xl">
                   Mock
                   <span className="block text-olive mt-1">Meat</span>
                 </h1>
@@ -65,18 +65,18 @@ export default function Home() {
                   We supply delicious <strong className="text-white font-extrabold">plant-based meat</strong> and <strong className="text-white font-extrabold">frozen food products</strong> for caterers, hotels, restaurants, retailers and home-style kitchens.
                 </p>
                 
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row flex-wrap">
+                <div className="mt-8 flex flex-col gap-3 lg:flex-row lg:flex-wrap">
                   <a
                     href={`${ECOMMERCE_URL}/shop`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-800 hover:bg-emerald-700 px-7 py-3.5 font-black text-white shadow-soft transition-all duration-300 hover:scale-[1.02] active:scale-100"
+                    className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-emerald-800 px-5 py-3 text-sm font-black text-white shadow-soft transition-all duration-300 hover:scale-[1.02] hover:bg-emerald-700 active:scale-100 sm:text-base lg:w-auto lg:px-7 lg:py-3.5"
                   >
                     <ShoppingBag size={18} /> Order Online (Home Delivery)
                   </a>
                   <Link
                     to="/products"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-parchment px-6 py-3.5 font-black text-olivewood shadow-soft transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-100"
+                    className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-parchment px-5 py-3 text-sm font-black text-olivewood shadow-soft transition-all duration-300 hover:scale-[1.02] hover:bg-white active:scale-100 sm:text-base lg:w-auto lg:px-6 lg:py-3.5"
                   >
                     Explore range <ArrowRight size={18} />
                   </Link>
@@ -84,7 +84,7 @@ export default function Home() {
                     href={getWhatsAppUrl('Hello, I would like to make a B2B wholesale enquiry with Sakthi Frozen Foods.')}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3.5 font-black text-white backdrop-blur transition-all duration-300 hover:scale-[1.02] hover:bg-green-600/10 hover:border-green-500/40 active:scale-95"
+                    className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-black text-white backdrop-blur transition-all duration-300 hover:scale-[1.02] hover:border-green-500/40 hover:bg-green-600/10 active:scale-95 sm:text-base lg:w-auto lg:px-6 lg:py-3.5"
                   >
                     <MessageCircle size={18} /> Wholesale enquiry
                   </a>
@@ -122,7 +122,7 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-                <div className="mt-4 flex flex-col sm:flex-row flex-wrap gap-3 pr-6 sm:pr-0">
+                <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                   {['Plant-based', 'No preservatives', 'Direct enquiry'].map((item) => (
                     <div key={item} className="rounded-md border border-white/[0.12] bg-white/10 px-4 py-2.5 text-xs sm:text-sm font-black text-parchment text-center sm:text-left backdrop-blur-md">
                       {item}
