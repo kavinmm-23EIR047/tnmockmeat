@@ -122,7 +122,7 @@ export default function Footer() {
         <p className="mt-2 sm:mt-0">
           Developed by{' '}
           <a 
-            href="https://akwebflairtechnologies.vercel.app" 
+            href="https://www.akwebflairtechnologies.in/" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="underline hover:text-white transition-colors"
